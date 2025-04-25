@@ -2,7 +2,6 @@
 #include "cfg/Config.hpp"
 #include "utils/Utils.hpp"
 
-#include <algorithm>
 #include <cctype>
 #include <crow.h>
 #include <jwt-cpp/jwt.h>

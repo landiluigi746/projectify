@@ -6,39 +6,47 @@
 
 #include <crow.h>
 
+using namespace projectify;
+
 int main()
 {
-    projectify::Logger logger;
+    Logger logger;
     crow::logger::setHandler(&logger);
 
-    if(projectify::Database::Init() == projectify::Database::Result::FAILED)
+    if(Database::Init() == Database::Result::FAILED)
         return 1;
 
-    crow::App<projectify::Middleware::RateLimiter, projectify::Middleware::JwtValidator> app;
+    crow::App<Middleware::RateLimiter, Middleware::JwtValidator> app;
 
     CROW_ROUTE(app, "/")([]{
         return "Hello world from projectify backend!";
     });
 
     CROW_ROUTE(app, "/protected")
-        .CROW_MIDDLEWARES(app, projectify::Middleware::JwtValidator)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
     ([]{
         return "Protected route test";
     });
 
     CROW_ROUTE(app, "/register")
         .methods("POST"_method)
-    ([] (const crow::request& req, crow::response& res) {
-        projectify::API::RegisterUser(req, res);
-    });
+        (&API::RegisterUser);
 
     CROW_ROUTE(app, "/login")
         .methods("POST"_method)
-    ([] (const crow::request& req, crow::response& res) {
-        projectify::API::LoginUser(req, res);
-    });
+        (&API::LoginUser);
 
-    app.port(projectify::Config::PORT).multithreaded().run();
+    CROW_ROUTE(app, "/registerProject")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::RegisterProject);
+
+    CROW_ROUTE(app, "/getProjects")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::GetProjects);
+
+    app.port(Config::PORT).multithreaded().run();
 
     return 0;
 }

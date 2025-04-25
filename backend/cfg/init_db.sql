@@ -3,3 +3,11 @@ CREATE TABLE IF NOT EXISTS users (
     username TEXT NOT NULL UNIQUE,
     passwordHash TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS projects (
+    ID SERIAL PRIMARY KEY,
+    creatorID INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    FOREIGN KEY (creatorID) REFERENCES users (ID) ON DELETE CASCADE
+);

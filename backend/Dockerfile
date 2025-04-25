@@ -7,7 +7,7 @@ RUN apk add --no-cache git ninja cmake asio-dev spdlog-dev fmt-dev libpq-dev lib
 COPY . .
 
 RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -G Ninja
-RUN cmake --build build --parallel $(( ($(nproc) + 1) / 2 ))
+RUN cmake --build build
 
 FROM alpine:latest
 

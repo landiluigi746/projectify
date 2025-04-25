@@ -1,7 +1,5 @@
-from pydoc import text
 import requests
 import time
-from multiprocessing import heap
 
 BACKEND_URL = 'http://localhost:8000'
 

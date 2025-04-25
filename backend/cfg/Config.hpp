@@ -24,5 +24,7 @@ namespace projectify::Config
     inline const std::regex USERNAME_REGEX(R"(^(?=[a-zA-Z])[a-zA-Z0-9]{7,64}$)");
     inline const std::regex PASSWORD_REGEX(R"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!@#$%^&*]).{8,128}$)");
 
+    inline const std::regex PROJECT_TASK_URL_NAME_REGEX(R"(^(?=[a-zA-Z])[a-zA-Z0-9 _\-.,!?@#$%^&*].{5,63}$)");
+
     inline const std::string JWT_SECRET = Utils::GetEnv("JWT_SECRET", "jwtSecret");
 }
