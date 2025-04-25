@@ -53,7 +53,7 @@ namespace projectify::Utils
 
     bool RegexMatches(std::string_view str, const std::regex& regex)
     {
-        return std::regex_match(str.data(), str.data() + str.length(), regex);
+        return std::regex_match(str.begin(), str.end(), regex);
     }
 
     std::string CreateJwt(int id)
@@ -65,5 +65,12 @@ namespace projectify::Utils
             .set_expires_in(std::chrono::seconds{3600})
             .set_subject(std::to_string(id))
             .sign(jwt::algorithm::hs256{Config::JWT_SECRET});
+    }
+
+    bool IsPositiveInteger(std::string_view str)
+    {
+        return (!str.empty() && std::all_of(str.begin(), str.end(), [](char c) {
+            return std::isdigit(c);
+        }));
     }
 }

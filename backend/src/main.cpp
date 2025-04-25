@@ -1,7 +1,5 @@
 #include "api/API.hpp"
 #include "cfg/Config.hpp"
-#include "crow/http_request.h"
-#include "crow/http_response.h"
 #include "db/Database.hpp"
 #include "logger/Logger.hpp"
 #include "middleware/Middlewares.hpp"
@@ -16,10 +14,16 @@ int main()
     if(projectify::Database::Init() == projectify::Database::Result::FAILED)
         return 1;
 
-    crow::App<projectify::Middleware::RateLimiter> app;
+    crow::App<projectify::Middleware::RateLimiter, projectify::Middleware::JwtValidator> app;
 
     CROW_ROUTE(app, "/")([]{
         return "Hello world from projectify backend!";
+    });
+
+    CROW_ROUTE(app, "/protected")
+        .CROW_MIDDLEWARES(app, projectify::Middleware::JwtValidator)
+    ([]{
+        return "Protected route test";
     });
 
     CROW_ROUTE(app, "/register")

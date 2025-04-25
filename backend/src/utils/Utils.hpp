@@ -11,5 +11,7 @@ namespace projectify::Utils
 
     bool RegexMatches(std::string_view str, const std::regex& regex);
 
+    bool IsPositiveInteger(std::string_view str);
+
     std::string CreateJwt(int id);
 }
