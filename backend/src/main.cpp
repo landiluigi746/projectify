@@ -1,4 +1,7 @@
+#include "api/API.hpp"
 #include "cfg/Config.hpp"
+#include "crow/http_request.h"
+#include "crow/http_response.h"
 #include "db/Database.hpp"
 #include "logger/Logger.hpp"
 #include "middleware/Middlewares.hpp"
@@ -16,7 +19,19 @@ int main()
     crow::App<projectify::Middleware::RateLimiter> app;
 
     CROW_ROUTE(app, "/")([]{
-       return "Hello world from projectify backend!";
+        return "Hello world from projectify backend!";
+    });
+
+    CROW_ROUTE(app, "/register")
+        .methods("POST"_method)
+    ([] (const crow::request& req, crow::response& res) {
+        projectify::API::RegisterUser(req, res);
+    });
+
+    CROW_ROUTE(app, "/login")
+        .methods("POST"_method)
+    ([] (const crow::request& req, crow::response& res) {
+        projectify::API::LoginUser(req, res);
     });
 
     app.port(projectify::Config::PORT).multithreaded().run();

@@ -12,6 +12,7 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - projectify_db:/var/lib/postgresql/data
+      - ./backend/cfg:/docker-entrypoint-initdb.d
 
   backend:
     build:

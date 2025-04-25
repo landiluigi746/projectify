@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS users (
+    ID SERIAL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    passwordHash TEXT NOT NULL
+);

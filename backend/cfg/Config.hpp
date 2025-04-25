@@ -20,4 +20,7 @@ namespace projectify::Config
 
     inline const auto REQUESTS_PER_MINUTE = std::stoi(Utils::GetEnv("REQUESTS_PER_MINUTE", "15"));
     inline const auto TIME_WINDOW = std::chrono::minutes(1);
+
+    inline const std::regex USERNAME_REGEX(R"(^(?=[a-zA-Z])[a-zA-Z0-9]{7,64}$)");
+    inline const std::regex PASSWORD_REGEX(R"(^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!@#$%^&*]).{8,128}$)");
 }

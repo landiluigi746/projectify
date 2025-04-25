@@ -1,5 +1,7 @@
 #pragma once
 
+#include "models/Models.hpp"
+
 #include <cstdint>
 #include <tao/pq.hpp>
 
@@ -18,4 +20,7 @@ namespace projectify::Database
 
     std::shared_ptr<tao::pq::connection_pool>& GetConnectionPool();
     Result Init();
+
+    std::pair<Result, int> RegisterUser(std::string_view username, std::string_view password);
+    std::pair<Result, std::optional<Models::User>> GetUserByCredentials(std::string_view username, std::string_view password);
 }

@@ -38,6 +38,19 @@ namespace projectify::Database
                     return;
                 }
 
+                conn->prepare("register_user", R"(
+                    INSERT INTO users (username, passwordHash)
+                    VALUES ($1, $2)
+                    ON CONFLICT DO NOTHING
+                    RETURNING id
+                )");
+
+                conn->prepare("get_user_credentials", R"(
+                    SELECT ID, username, passwordHash
+                    FROM users
+                    WHERE username = $1
+                )");
+
                 s_InitResult = Result::SUCCESS;
             }
             catch(const std::exception& e)
