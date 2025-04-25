@@ -17,4 +17,7 @@ namespace projectify::Config
 
     inline const std::string DB_CONNECTION_STRING =
         std::format("dbname={} user={} password={} host={} port={}", DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT);
+
+    inline const auto REQUESTS_PER_MINUTE = std::stoi(Utils::GetEnv("REQUESTS_PER_MINUTE", "15"));
+    inline const auto TIME_WINDOW = std::chrono::minutes(1);
 }

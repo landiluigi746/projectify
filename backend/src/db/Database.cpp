@@ -38,9 +38,6 @@ namespace projectify::Database
                     return;
                 }
 
-                const auto res = conn->execute("SELECT 1");
-                spdlog::info("{}", res[0].as<int>());
-
                 s_InitResult = Result::SUCCESS;
             }
             catch(const std::exception& e)
