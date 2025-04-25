@@ -2,7 +2,7 @@ FROM frolvlad/alpine-gxx AS builder
 
 WORKDIR /app
 
-RUN apk add --no-cache git ninja cmake
+RUN apk add --no-cache git ninja cmake asio-dev spdlog-dev fmt-dev libpq-dev libsodium-dev
 
 COPY . .
 

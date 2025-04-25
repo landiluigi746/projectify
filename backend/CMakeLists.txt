@@ -16,4 +16,34 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
+set(FETCHCONTENT_BASE_DIR ${CMAKE_SOURCE_DIR}/vendor)
+
+include(cmake/GetCPM.cmake)
+
+CPMAddPackage(Crow
+    VERSION 1.2.1.2
+    GITHUB_REPOSITORY CrowCpp/Crow
+    OPTIONS
+    "CROW_BUILD_EXAMPLES Off"
+    "CROW_BUILD_TOOLS Off"
+    "CROW_BUILD_TESTS Off"
+    "CROW_BUILD_DOCS Off"
+    "CROW_ENABLE_COMPRESSION On"
+    "CROW_ENABLE_SSL On"
+)
+
+CPMAddPackage(taopq
+    GITHUB_REPOSITORY taocpp/taopq
+    GIT_TAG main
+    OPTIONS
+    "taopq_BUILD_TESTS Off"
+)
+
+CPMAddPackage(jwt-cpp
+    VERSION 0.7.1
+    GITHUB_REPOSITORY Thalhammer/jwt-cpp
+    OPTIONS
+    "JWT_BUILD_EXAMPLES Off"
+)
+
 add_subdirectory(src)

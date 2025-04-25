@@ -4,6 +4,16 @@ add_executable(projectify ${PROJECTIFY_SOURCES})
 
 target_include_directories(projectify PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR})
 
+target_link_libraries(
+    projectify
+    PRIVATE Crow::Crow
+    taocpp::taopq
+    fmt
+    spdlog
+    sodium
+    jwt-cpp::jwt-cpp
+)
+
 set(OPTIONS_WARNINGS -Wall -Wpedantic)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -35,5 +45,5 @@ target_precompile_headers(
     <vector>
     <unordered_map>
     <chrono>
-    <print>
+    ${CMAKE_SOURCE_DIR}/cfg/Config.hpp
 )

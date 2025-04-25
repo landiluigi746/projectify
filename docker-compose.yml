@@ -3,3 +3,7 @@ services:
     build:
       context: ./backend
     restart: unless-stopped
+    ports:
+      - "${PORT}:8000"
+    environment:
+      - PORT=${PORT}
