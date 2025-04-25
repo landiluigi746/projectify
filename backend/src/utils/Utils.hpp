@@ -10,4 +10,6 @@ namespace projectify::Utils
     bool CheckHashedString(std::string_view string, std::string_view hashed);
 
     bool RegexMatches(std::string_view str, const std::regex& regex);
+
+    std::string CreateJwt(int id);
 }

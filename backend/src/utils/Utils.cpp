@@ -7,6 +7,7 @@
 #include <sodium/core.h>
 #include <sodium/crypto_pwhash.h>
 #include <spdlog/spdlog.h>
+#include <jwt-cpp/jwt.h>
 
 namespace projectify::Utils
 {
@@ -53,5 +54,16 @@ namespace projectify::Utils
     bool RegexMatches(std::string_view str, const std::regex& regex)
     {
         return std::regex_match(str.data(), str.data() + str.length(), regex);
+    }
+
+    std::string CreateJwt(int id)
+    {
+        return jwt::create()
+            .set_type("JWS")
+            .set_issuer("projectify-auth")
+            .set_issued_now()
+            .set_expires_in(std::chrono::seconds{3600})
+            .set_subject(std::to_string(id))
+            .sign(jwt::algorithm::hs256{Config::JWT_SECRET});
     }
 }

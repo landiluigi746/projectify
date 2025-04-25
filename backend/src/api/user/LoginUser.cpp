@@ -1,5 +1,6 @@
 #include "api/API.hpp"
 #include "db/Database.hpp"
+#include "utils/Utils.hpp"
 
 #include <crow.h>
 #include <spdlog/spdlog.h>
@@ -31,6 +32,7 @@ namespace projectify::API
 
             case projectify::Database::Result::SUCCESS:
                 res.code = crow::status::OK;
+                res.set_header("Authorization", Utils::CreateJwt(user.value().ID));
                 res.end(user.value().Serialize().dump());
                 break;
 

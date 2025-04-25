@@ -39,7 +39,7 @@ def login_test():
         if not res.ok:
             print(f"Login failed | Status code: {res.status_code}, Error message: {res.text}")
         else:
-            print(f"Login successful | Backend returned: {res.text}")
+            print(f"Login successful | Backend returned: {res.text} | Authorization: {res.headers["Authorization"]}")
 
 reg_test()
 time.sleep(4)
