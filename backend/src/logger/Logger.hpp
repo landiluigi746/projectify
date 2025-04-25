@@ -14,11 +14,11 @@ namespace projectify
         {
             switch(level)
             {
-                case crow::LogLevel::DEBUG:     spdlog::debug("{}", message);
-                case crow::LogLevel::INFO:      spdlog::info("{}", message);
-                case crow::LogLevel::WARNING:   spdlog::warn("{}", message);
-                case crow::LogLevel::ERROR:     spdlog::error("{}", message);
-                case crow::LogLevel::CRITICAL:  spdlog::critical("{}", message);
+                case crow::LogLevel::DEBUG:     spdlog::debug("{}", message); break;
+                case crow::LogLevel::INFO:      spdlog::info("{}", message); break;
+                case crow::LogLevel::WARNING:   spdlog::warn("{}", message); break;
+                case crow::LogLevel::ERROR:     spdlog::error("{}", message); break;
+                case crow::LogLevel::CRITICAL:  spdlog::critical("{}", message); break;
             }
         }
     };

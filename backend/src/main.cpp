@@ -2,12 +2,16 @@
 
 #include "cfg/Config.hpp"
 #include "crow/logging.h"
+#include "db/Database.hpp"
 #include "logger/Logger.hpp"
 
 int main()
 {
     projectify::Logger logger;
     crow::logger::setHandler(&logger);
+
+    if(projectify::Database::Init() == projectify::Database::Result::FAILED)
+        return 1;
 
     crow::SimpleApp app;
 

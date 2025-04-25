@@ -1,4 +1,18 @@
+version: "3.8"
+
 services:
+  projectify-db:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - projectify_db:/var/lib/postgresql/data
+
   backend:
     build:
       context: ./backend
@@ -7,3 +21,14 @@ services:
       - "${PORT}:8000"
     environment:
       - PORT=${PORT}
+      - BUILD_TYPE=${BUILD_TYPE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+    depends_on:
+      - projectify-db
+
+volumes:
+  projectify_db:
