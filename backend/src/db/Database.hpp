@@ -22,7 +22,7 @@ namespace projectify::Database
     Result Init();
 
     bool UserIsPresent(Connection conn, int userID);
-    bool ProjectIsPresentByID(Connection conn, int projectID);
+    bool ProjectIsPresentByID(Connection conn, int projectID, int userID);
     bool ProjectIsPresentByName(Connection conn, int userID, std::string_view name);
 
     std::pair<Result, int> RegisterUser(std::string_view username, std::string_view password);

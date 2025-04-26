@@ -38,23 +38,9 @@ namespace projectify::Database
                     return;
                 }
 
-                conn->prepare("check_user_exists", R"(
-                    SELECT 1
-                    FROM users
-                    WHERE ID = $1
-                )");
-
-                conn->prepare("check_project_exists_name", R"(
-                    SELECT 1
-                    FROM projects
-                    WHERE creatorID = $1 AND name = $2
-                )");
-
-                conn->prepare("check_project_exists_id", R"(
-                    SELECT 1
-                    FROM projects
-                    WHERE ID = $1
-                )");
+                conn->prepare("check_user_exists", R"(SELECT 1 FROM users WHERE ID = $1)");
+                conn->prepare("check_project_exists_name", R"(SELECT 1 FROM projects WHERE creatorID = $1 AND name = $2)");
+                conn->prepare("check_project_exists_id", R"(SELECT 1 FROM projects WHERE ID = $1 AND creatorID = $2)");
 
                 conn->prepare("register_user", R"(
                     INSERT INTO users (username, passwordHash)
@@ -96,40 +82,16 @@ namespace projectify::Database
 
     bool UserIsPresent(Connection conn, int userID)
     {
-        try
-        {
-            return !conn->execute("check_user_exists", userID).empty();
-        }
-        catch(const std::exception& e)
-        {
-            spdlog::error("Database::UserIsPresent() : {}", e.what());
-            return false;
-        }
+        return !conn->execute("check_user_exists", userID).empty();
     }
 
     bool ProjectIsPresentByName(Connection conn, int userID, std::string_view name)
     {
-        try
-        {
-            return !conn->execute("check_project_exists_name", userID, name).empty();
-        }
-        catch(const std::exception& e)
-        {
-            spdlog::error("Database::ProjectIsPresentByTitle() : {}", e.what());
-            return false;
-        }
+        return !conn->execute("check_project_exists_name", userID, name).empty();
     }
 
-    bool ProjectIsPresentByID(Connection conn, int projectID)
+    bool ProjectIsPresentByID(Connection conn, int projectID, int userID)
     {
-        try
-        {
-            return !conn->execute("check_project_exists_id", projectID).empty();
-        }
-        catch(const std::exception& e)
-        {
-            spdlog::error("Database::ProjectIsPresentByID() : {}", e.what());
-            return false;
-        }
+        return !conn->execute("check_project_exists_id", projectID, userID).empty();
     }
 }
