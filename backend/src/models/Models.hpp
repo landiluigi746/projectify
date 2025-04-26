@@ -28,4 +28,15 @@ namespace projectify::Models
         static bool Validate(std::string_view name, std::string_view description);
         crow::json::wvalue Serialize() const;
     };
+
+    struct Task
+    {
+        int ID;
+        int projectID;
+        std::string name;
+        bool completed;
+
+        static bool Validate(std::string_view name);
+        crow::json::wvalue Serialize() const;
+    };
 }

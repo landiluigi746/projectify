@@ -2,10 +2,8 @@
 #include "cfg/Config.hpp"
 
 #include <exception>
-#include <memory>
 #include <mutex>
 #include <spdlog/spdlog.h>
-#include <tao/pq.hpp>
 
 namespace projectify::Database
 {
@@ -41,6 +39,15 @@ namespace projectify::Database
                 conn->prepare("check_user_exists", R"(SELECT 1 FROM users WHERE ID = $1)");
                 conn->prepare("check_project_exists_name", R"(SELECT 1 FROM projects WHERE creatorID = $1 AND name = $2)");
                 conn->prepare("check_project_exists_id", R"(SELECT 1 FROM projects WHERE ID = $1 AND creatorID = $2)");
+                
+                conn->prepare("check_task_exists_name", R"(
+                    SELECT 1
+                    FROM projects_tasks task
+                    JOIN projects prj ON task.projectID = prj.ID
+                    WHERE task.name = $3
+                    AND prj.ID = $2
+                    AND prj.creatorID = $1
+                )");
 
                 conn->prepare("register_user", R"(
                     INSERT INTO users (username, passwordHash)
@@ -68,6 +75,20 @@ namespace projectify::Database
                     WHERE creatorID = $1
                 )");
 
+                conn->prepare("register_task", R"(
+                    INSERT INTO projects_tasks (projectID, name, completed)
+                    VALUES ($1, $2, FALSE)
+                    RETURNING id
+                )");
+
+                conn->prepare("get_tasks", R"(
+                    SELECT task.ID, task.projectID, task.name, task.completed
+                    FROM projects_tasks task
+                    JOIN projects prj ON task.projectID = prj.ID
+                    WHERE prj.ID = $2
+                    AND prj.creatorID = $1
+                )");
+
                 s_InitResult = Result::SUCCESS;
             }
             catch(const std::exception& e)
@@ -93,5 +114,15 @@ namespace projectify::Database
     bool ProjectIsPresentByID(Connection conn, int projectID, int userID)
     {
         return !conn->execute("check_project_exists_id", projectID, userID).empty();
+    }
+
+    bool TaskIsPresentByName(Connection conn, int userID, int projectID, std::string_view name)
+    {
+        return !conn->execute("check_task_exists_name", userID, projectID, name).empty();
+    }
+
+    bool TaskIsPresentByID(Connection conn, int userID, int projectID, int taskID)
+    {
+        return !conn->execute("check_task_exists_id", userID, projectID, taskID).empty();
     }
 }

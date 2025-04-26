@@ -16,6 +16,7 @@ namespace projectify::Models
     crow::json::wvalue Project::Serialize() const
     {
         return crow::json::wvalue{
+            { "ID", ID },
             { "name", name },
             { "description", description },
             { "completedTasks", completedTasks },

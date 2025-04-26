@@ -4,7 +4,7 @@
 #include "logger/Logger.hpp"
 #include "middleware/Middlewares.hpp"
 
-#include <crow.h>
+#include <crow/app.h>
 
 using namespace projectify;
 
@@ -45,6 +45,16 @@ int main()
         .methods("POST"_method)
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::GetProjects);
+
+    CROW_ROUTE(app, "/tasks/register")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::RegisterTask);
+
+    CROW_ROUTE(app, "/tasks/get")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::GetTasks);
 
     app.port(Config::PORT).multithreaded().run();
 
