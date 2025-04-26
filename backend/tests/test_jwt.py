@@ -14,7 +14,7 @@ unregistered_user = make_user('whotfami12', 'mystupidAsspw*2')
 
 def test(user):
     s = requests.Session()
-    res = s.post(BACKEND_URL + '/login', json=user)
+    res = s.post(BACKEND_URL + '/users/login', json=user)
 
     if res.headers.get("Authorization"):
         s.headers["Authorization"] = res.headers["Authorization"]

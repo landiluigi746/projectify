@@ -28,20 +28,20 @@ int main()
         return "Protected route test";
     });
 
-    CROW_ROUTE(app, "/register")
+    CROW_ROUTE(app, "/users/register")
         .methods("POST"_method)
         (&API::RegisterUser);
 
-    CROW_ROUTE(app, "/login")
+    CROW_ROUTE(app, "/users/login")
         .methods("POST"_method)
         (&API::LoginUser);
 
-    CROW_ROUTE(app, "/registerProject")
+    CROW_ROUTE(app, "/projects/register")
         .methods("POST"_method)
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::RegisterProject);
 
-    CROW_ROUTE(app, "/getProjects")
+    CROW_ROUTE(app, "/projects/get")
         .methods("POST"_method)
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::GetProjects);

@@ -28,7 +28,7 @@ projects = [
 
 def do_login(user):
     s = requests.Session()
-    res = s.post(BACKEND_URL + '/login', json=user)
+    res = s.post(BACKEND_URL + '/users/login', json=user)
 
     if res.headers.get("Authorization"):
         s.headers["Authorization"] = res.headers["Authorization"]
@@ -39,7 +39,7 @@ def reg_test(user):
     s = do_login(user)
     
     for project in projects:
-        res = s.post(BACKEND_URL + '/registerProject', json=project)
+        res = s.post(BACKEND_URL + '/projects/register', json=project)
 
         if not res.ok:
             print(f"Project Registration failed | Status code: {res.status_code}, Error message: {res.text}")
@@ -49,7 +49,7 @@ def reg_test(user):
 def get_test(user):
     s = do_login(user)
 
-    res = s.post(BACKEND_URL + '/getProjects')
+    res = s.post(BACKEND_URL + '/projects/get')
 
     if not res.ok:
         print(f"Failed to fetch projects")

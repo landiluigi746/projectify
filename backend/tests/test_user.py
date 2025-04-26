@@ -21,7 +21,7 @@ login_status = [0] * len(users)
 
 def reg_test():
     for i, user in enumerate(users):
-        res = requests.post(BACKEND_URL + '/register', json=user)
+        res = requests.post(BACKEND_URL + '/users/register', json=user)
 
         reg_status[i] = res.status_code
 
@@ -32,7 +32,7 @@ def reg_test():
 
 def login_test():
     for i, user in enumerate(users):
-        res = requests.post(BACKEND_URL + '/login', json=user)
+        res = requests.post(BACKEND_URL + '/users/login', json=user)
 
         login_status[i] = res.status_code
 
