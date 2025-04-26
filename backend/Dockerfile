@@ -14,7 +14,7 @@ RUN cp -r Crow-1.2.1-Linux/include/* /usr/include/ && \
 COPY . .
 
 RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -G Ninja
-RUN cmake --build build
+RUN cmake --build build --parallel $(nproc)
 
 FROM alpine:latest
 
