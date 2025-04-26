@@ -6,7 +6,9 @@ target_include_directories(projectify PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAK
 
 target_link_libraries(
     projectify
-    PRIVATE Crow::Crow
+    PRIVATE
+    ZLIB::ZLIB
+    Crow::Crow
     taocpp::taopq
     fmt
     spdlog
