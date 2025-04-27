@@ -7,6 +7,12 @@
 
 namespace projectify::Database
 {
+    static std::pair<int, int> GetTasksStatus(Connection conn, int projectID)
+    {
+        const auto res = conn->execute("get_tasks_status", projectID);
+        return std::make_pair(res[0][0].as<int>(), res[0][1].as<int>());
+    }
+
     std::pair<Result, int> RegisterProject(int userID, std::string_view name, std::string_view description)
     {
         try
@@ -50,8 +56,8 @@ namespace projectify::Database
 
             for(const auto& row: res)
             {
-                // TODO: CHANGE WHEN TASKS ARE IMPLEMENTED
-                projects.emplace_back(row[0].as<int>(), row[1].as<int>(), row[2].as<std::string>(), row[3].as<std::string>(), 0, 0);
+                const auto [total, completed] = GetTasksStatus(conn, row[0].as<int>());
+                projects.emplace_back(row[0].as<int>(), row[1].as<int>(), row[2].as<std::string>(), row[3].as<std::string>(), completed, total);
             }
 
             return std::make_pair(Result::SUCCESS, projects);

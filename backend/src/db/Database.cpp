@@ -89,6 +89,12 @@ namespace projectify::Database
                     AND prj.creatorID = $1
                 )");
 
+                conn->prepare("get_tasks_status", R"(
+                    SELECT COUNT(*), SUM(completed::int)
+                    FROM projects_tasks
+                    WHERE projectID = $1
+                )");
+
                 s_InitResult = Result::SUCCESS;
             }
             catch(const std::exception& e)
