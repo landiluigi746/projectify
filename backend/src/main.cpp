@@ -56,6 +56,11 @@ int main()
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::GetTasks);
 
+    CROW_ROUTE(app, "/tasks/toggleStatus")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::ToggleTaskStatus);
+
     app.port(Config::PORT).multithreaded().run();
 
     return 0;

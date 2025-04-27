@@ -49,6 +49,15 @@ namespace projectify::Database
                     AND prj.creatorID = $1
                 )");
 
+                conn->prepare("check_task_exists_id", R"(
+                    SELECT 1
+                    FROM projects_tasks task
+                    JOIN projects prj ON task.projectID = prj.ID
+                    WHERE task.ID = $3
+                    AND prj.ID = $2
+                    AND prj.creatorID = $1
+                )");
+
                 conn->prepare("register_user", R"(
                     INSERT INTO users (username, passwordHash)
                     VALUES ($1, $2)
@@ -93,6 +102,13 @@ namespace projectify::Database
                     SELECT COUNT(*), SUM(completed::int)
                     FROM projects_tasks
                     WHERE projectID = $1
+                )");
+
+                conn->prepare("toggle_task_status", R"(
+                    UPDATE projects_tasks
+                    SET completed = NOT completed
+                    WHERE ID = $1
+                    RETURNING id
                 )");
 
                 s_InitResult = Result::SUCCESS;

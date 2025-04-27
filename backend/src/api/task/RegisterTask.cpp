@@ -3,13 +3,11 @@
 #include "models/Models.hpp"
 
 #include <jwt-cpp/jwt.h>
-#include <spdlog/spdlog.h>
 
 namespace projectify::API
 {
     void RegisterTask(const crow::request& req, crow::response& res)
     {
-        spdlog::info("{}", req.body);
         const auto requestData = crow::json::load(req.body);
         
         if(!requestData || !requestData.has("name") || !requestData.has("projectID") ||

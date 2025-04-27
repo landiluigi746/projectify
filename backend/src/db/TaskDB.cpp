@@ -56,4 +56,26 @@ namespace projectify::Database
             return std::make_pair(Result::FAILED, std::vector<Models::Task>());
         }
     }
+
+    Result ToggleTaskStatus(int userID, int projectID, int taskID)
+    {
+        try
+        {
+            const auto conn = GetConnectionPool()->connection();
+
+            if(!TaskIsPresentByID(conn, userID, projectID, taskID))
+                return Result::NOT_FOUND;
+
+            const auto tr = conn->transaction();
+            tr->execute("toggle_task_status", taskID);
+            tr->commit();
+
+            return Result::SUCCESS;
+        }
+        catch(const std::exception& e)
+        {
+            spdlog::error("Database::ToggleTaskStatus(): {}", e.what());
+            return Result::FAILED;
+        }
+    }
 }
