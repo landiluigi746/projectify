@@ -28,3 +28,20 @@ endif()
 message(STATUS "Compiler options: ${OPTIONS_WARNINGS} ${OPTIONS_OPTIMIZATION}")
 
 target_compile_options(projectify-cli PRIVATE ${OPTIONS_WARNINGS} ${OPTIONS_OPTIMIZATION})
+
+target_precompile_headers(
+    projectify-cli
+    PRIVATE
+    <string>
+    <string_view>
+    <format>
+    <regex>
+    <optional>
+    <utility>
+    <memory>
+    <mutex>
+    <exception>
+    <vector>
+    <unordered_map>
+    <chrono>
+)
