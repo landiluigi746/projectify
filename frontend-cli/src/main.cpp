@@ -1,39 +1,59 @@
-#include <ftxui/dom/elements.hpp>
-#include <ftxui/screen/screen.hpp>
+#include <ftxui/component/component.hpp>
+#include <ftxui/component/screen_interactive.hpp>
 
 #include <httplib.h>
 #include <print>
 
+ftxui::Component HomePage(ftxui::ScreenInteractive& screen)
+{
+    return ftxui::Container::Vertical({
+        ftxui::Renderer([] {
+            return ftxui::vbox(
+                ftxui::text("Hello world from projecify home page!")
+            );
+        }),
+        ftxui::Button("Exit", screen.ExitLoopClosure())
+    });
+}
+
 int main()
 {
-    // using namespace ftxui;
+    auto screen = ftxui::ScreenInteractive::Fullscreen();
+    screen.SetCursor(ftxui::Screen::Cursor{ .shape = ftxui::Screen::Cursor::Hidden });
 
-    // auto document = vbox({
-    //     hbox({
-    //         text("one") | border,
-    //         text("two") | border | flex,
-    //         text("three") | border | flex,
-    //     }),
+    std::string username;
+    std::string password;
 
-    //     gauge(0.25) | color(Color::Red),
-    //     gauge(0.50) | color(Color::White),
-    //     gauge(0.75) | color(Color::Blue),
-    // });
+    auto usernameInput = ftxui::Input(&username, "Username");
+    auto passwordInput = ftxui::Input(&password, "Password", ftxui::InputOption{ .password = true });
 
-    // auto screen = Screen::Create(Dimension::Fit(document));
-    // Render(screen, document);
+    auto layout = ftxui::Container::Vertical({
+        usernameInput,
+        passwordInput,
+        // just for test, no actual login
+        ftxui::Button("Login", screen.ExitLoopClosure())
+    });
 
-    // screen.Print();
+    auto renderer = ftxui::Renderer(layout, [&] {
+        return ftxui::vbox({
+            ftxui::text("projectify"),
+            ftxui::separator(),
+            layout->Render()
+        });
+    });
 
-    httplib::Client cli("localhost", 8000);
+    screen.Loop(renderer);
+    screen.Loop(HomePage(screen));
 
-    if (const auto res = cli.Get("/"))
-    {
-        std::println("Status: {}", res->status);
-        std::println("Response body: {}", res->body);
-    }
-    else
-        std::println("Status: {}", res->status);
+    // httplib::Client cli("localhost", 8000);
+
+    // if (const auto res = cli.Get("/"))
+    // {
+    //     std::println("Status: {}", res->status);
+    //     std::println("Response body: {}", res->body);
+    // }
+    // else
+    //     std::println("Status: {}", res->status);
 
     return 0;
 }
