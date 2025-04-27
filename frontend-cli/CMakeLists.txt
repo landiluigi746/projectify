@@ -25,4 +25,9 @@ CPMAddPackage(ftxui
     GITHUB_REPOSITORY ArthurSonzogni/FTXUI
 )
 
+CPMAddPackage(cpp-httplib
+    GITHUB_REPOSITORY yhirose/cpp-httplib
+    GIT_TAG master
+)
+
 add_subdirectory(src)

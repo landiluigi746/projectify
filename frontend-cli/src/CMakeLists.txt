@@ -10,6 +10,7 @@ target_link_libraries(
     ftxui::dom
     ftxui::screen
     ftxui::component
+    httplib::httplib
 )
 
 set(OPTIONS_WARNINGS -Wall -Wpedantic)
