@@ -30,4 +30,9 @@ CPMAddPackage(cpp-httplib
     GIT_TAG master
 )
 
+CPMAddPackage(glaze
+    GITHUB_REPOSITORY stephenberry/glaze
+    GIT_TAG main
+)
+
 add_subdirectory(src)

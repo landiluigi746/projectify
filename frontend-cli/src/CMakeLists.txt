@@ -11,6 +11,7 @@ target_link_libraries(
     ftxui::screen
     ftxui::component
     httplib::httplib
+    glaze::glaze
 )
 
 set(OPTIONS_WARNINGS -Wall -Wpedantic)

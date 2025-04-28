@@ -1,6 +1,7 @@
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 
+#include <glaze/json/write.hpp>
 #include <httplib.h>
 #include <print>
 
@@ -16,34 +17,53 @@ ftxui::Component HomePage(ftxui::ScreenInteractive& screen)
     });
 }
 
+struct TestStruct
+{
+    int x;
+    char c;
+    std::string s;
+    std::vector<double> d;
+};
+
 int main()
 {
-    auto screen = ftxui::ScreenInteractive::Fullscreen();
-    screen.SetCursor(ftxui::Screen::Cursor{ .shape = ftxui::Screen::Cursor::Hidden });
+    TestStruct test{
+        10,
+        'a',
+        "Hello world",
+        { 2.3, 4.5, 1.7 }
+    };
 
-    std::string username;
-    std::string password;
+    std::println("{}", glz::write_json(test).value());
 
-    auto usernameInput = ftxui::Input(&username, "Username");
-    auto passwordInput = ftxui::Input(&password, "Password", ftxui::InputOption{ .password = true });
+    // auto screen = ftxui::ScreenInteractive::Fullscreen();
+    // screen.SetCursor(ftxui::Screen::Cursor{ .shape = ftxui::Screen::Cursor::Hidden });
 
-    auto layout = ftxui::Container::Vertical({
-        usernameInput,
-        passwordInput,
-        // just for test, no actual login
-        ftxui::Button("Login", screen.ExitLoopClosure())
-    });
+    // std::string username;
+    // std::string password;
 
-    auto renderer = ftxui::Renderer(layout, [&] {
-        return ftxui::vbox({
-            ftxui::text("projectify"),
-            ftxui::separator(),
-            layout->Render()
-        });
-    });
+    // auto usernameInput = ftxui::Input(&username, "Username");
+    // auto passwordInput = ftxui::Input(&password, "Password", ftxui::InputOption{ .password = true });
 
-    screen.Loop(renderer);
-    screen.Loop(HomePage(screen));
+    // auto layout = ftxui::Container::Vertical({
+    //     usernameInput,
+    //     passwordInput,
+    //     // just for test, no actual login
+    //     ftxui::Button("Login", screen.ExitLoopClosure())
+    // });
+
+    // auto renderer = ftxui::Renderer(layout, [&] {
+    //     return ftxui::vbox({
+    //         ftxui::text("projectify"),
+    //         ftxui::separator(),
+    //         layout->Render()
+    //     });
+    // });
+
+    // screen.Loop(renderer);
+    // screen.Loop(HomePage(screen));
+
+
 
     // httplib::Client cli("localhost", 8000);
 
