@@ -45,4 +45,6 @@ target_precompile_headers(
     <vector>
     <unordered_map>
     <chrono>
+    <functional>
+    <algorithm>
 )
