@@ -11,9 +11,9 @@ namespace projcli::Components
 {
     HomePage::HomePage()
     {
-        m_SignInButton = Button("Sign In", []{});
-        m_SignUpButton = Button("Sign Up", []{});
-        m_ExitButton = Button("Exit", ComponentManager::ExitClosure());
+        m_SignInButton = Button("Sign In", []{}, ButtonOption::Animated());
+        m_SignUpButton = Button("Sign Up", ComponentManager::NavigateTo<SignUpPage>(), ButtonOption::Animated());
+        m_ExitButton = Button("Exit", ComponentManager::ExitClosure(), ButtonOption::Animated());
 
         Add(Container::Vertical({
             m_SignInButton,
