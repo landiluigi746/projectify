@@ -16,7 +16,20 @@ namespace projcli::API
         if(!res)
             return { Status::FAILURE, httplib::to_string(res.error()) };
 
-        return SignIn(credentials);
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::Created_201:
+                return SignIn(credentials);
+
+            case httplib::StatusCode::BadRequest_400:
+                return { Status::FAILURE, "Username or password invalid." };
+
+            case httplib::StatusCode::Conflict_409:
+                return { Status::FAILURE, "This username is already registered." };
+
+            default:
+                return { Status::FAILURE, "An unknown error occurred." };
+        }
     }
 
     Result API::SignIn(const Credentials& credentials)

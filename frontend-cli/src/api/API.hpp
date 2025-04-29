@@ -12,7 +12,7 @@ namespace projcli::API
         FAILURE
     };
 
-    constexpr const char* StatusToString(Status status)
+    constexpr const char* StatusToString(Status status) noexcept
     {
         switch(status)
         {
