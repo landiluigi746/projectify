@@ -33,7 +33,12 @@ namespace projcli
             GetInstance().Register<Components...>();
         }
 
-        ftxui::Component GetTabContainer();
+        static ftxui::Closure ExitClosure()
+        {
+            return GetInstance().m_Screen.ExitLoopClosure();
+        }
+
+        void MainLoop();
     private:
         ComponentManager();
 
@@ -61,7 +66,10 @@ namespace projcli
                 m_Selected = int(std::distance(m_Components.begin(), it));
         }
 
+        ftxui::Component GetTabContainer();
+
         int m_Selected;
+        ftxui::ScreenInteractive m_Screen;
         std::vector<std::pair<std::string_view, ftxui::Component>> m_Components;
     };
 }

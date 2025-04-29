@@ -7,13 +7,19 @@
 namespace projcli
 {
     ComponentManager::ComponentManager() :
-        m_Selected(0)
+        m_Selected(0),
+        m_Screen(ftxui::ScreenInteractive::Fullscreen())
     {}
 
     ComponentManager& ComponentManager::GetInstance()
     {
         static ComponentManager instance;
         return instance;
+    }
+
+    void ComponentManager::MainLoop()
+    {
+        m_Screen.Loop(GetTabContainer());
     }
 
     ftxui::Component ComponentManager::GetTabContainer()
