@@ -5,13 +5,17 @@
 
 namespace projcli::Components
 {
+    namespace Utils
+    {
+        ftxui::Element Banner();
+    }
+
     class HomePage : public ftxui::ComponentBase
     {
     public:
         HomePage();
         ftxui::Element OnRender() override;
     private:
-        ftxui::Element Banner();
     private:
         ftxui::Component m_SignUpButton;
         ftxui::Component m_SignInButton;

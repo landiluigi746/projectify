@@ -25,7 +25,7 @@ namespace projcli::Components
     Element HomePage::OnRender()
     {
         return vbox({
-            Banner(),
+            Utils::Banner(),
             separatorEmpty(),
             paragraphAlignCenter(
                 "Your go-to solution to organize projects and related links.\n"
@@ -41,19 +41,4 @@ namespace projcli::Components
             m_ExitButton->Render() | hcenter
         }) | center | flex | borderRounded;
     }
-
-    Element HomePage::Banner()
-    {
-        return vbox({
-            text(R"(                     _              _    _   __        )"),
-            text(R"(                    (_)            | |  (_) / _|       )"),
-            text(R"(  _ __   _ __  ___   _   ___   ___ | |_  _ | |_  _   _ )"),
-            text(R"( | '_ \ | '__|/ _ \ | | / _ \ / __|| __|| ||  _|| | | |)"),
-            text(R"( | |_) || |  | (_) || ||  __/| (__ | |_ | || |  | |_| |)"),
-            text(R"( | .__/ |_|   \___/ | | \___| \___| \__||_||_|   \__, |)"),
-            text(R"( | |               _/ |                           __/ |)"),
-            text(R"( |_|              |__/                           |___/ )")
-        }) | hcenter;
-    }
-
 }
