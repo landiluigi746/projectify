@@ -32,4 +32,13 @@ namespace projcli
         Status StatusCode;
         std::string Message;
     };
+
+    struct Project
+    {
+        int ID;
+        std::string name;
+        std::string description;
+        int completedTasks;
+        int totalTasks;
+    };
 }

@@ -53,4 +53,13 @@ namespace projcli::Components
         ftxui::Component m_SendButton;
         ftxui::Component m_BackButton;
     };
+
+    class DashboardPage : public ftxui::ComponentBase
+    {
+    public:
+        DashboardPage();
+        ftxui::Element OnRender() override;
+    };
+
+    ftxui::Component ProjectCard(const Project& project);
 }

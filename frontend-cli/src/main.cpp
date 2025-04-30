@@ -6,7 +6,7 @@ using namespace projcli::Components;
 
 int main()
 {
-    ComponentManager::RegisterComponents<HomePage, SignUpPage, SignInPage>();
+    ComponentManager::RegisterComponents<HomePage, SignUpPage, SignInPage, DashboardPage>();
     ComponentManager::GetInstance().MainLoop();
 
     return 0;

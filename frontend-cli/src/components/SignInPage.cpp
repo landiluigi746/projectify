@@ -20,7 +20,13 @@ namespace projcli::Components
         m_SendButton = Button("Sign In", [&]{
             std::async(std::launch::async, [&]{
                 m_Result = API::GetInstance().SignIn(m_Credentials);
+
+                if(m_Result.StatusCode == Status::FAILURE)
+                    return;
             }).get();
+
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            ComponentManager::NavigateTo<DashboardPage>()();
         }, ButtonOption::Animated());
         m_BackButton = Button("Back", ComponentManager::NavigateTo<HomePage>(), ButtonOption::Animated());
 
