@@ -29,6 +29,7 @@ namespace projcli::Components
         ftxui::Element OnRender() override;
     private:
         Credentials m_Credentials;
+        Result m_Result;
 
         ftxui::Component m_UsernameInput;
         ftxui::Component m_PasswordInput;

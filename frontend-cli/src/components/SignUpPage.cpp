@@ -1,9 +1,12 @@
+#include "Types.hpp"
 #include "app/ComponentManager.hpp"
 #include "components/Components.hpp"
+#include "api/API.hpp"
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/component_options.hpp>
 #include <ftxui/dom/elements.hpp>
+#include <future>
 
 using namespace ftxui;
 
@@ -14,7 +17,11 @@ namespace projcli::Components
         m_UsernameInput = Input(&m_Credentials.username, "Username");
         m_PasswordInput = Input(&m_Credentials.password, "Password", InputOption{ .password = true });
 
-        m_SendButton = Button("Sign Up", []{}, ButtonOption::Animated());
+        m_SendButton = Button("Sign Up", [&]{
+            std::async(std::launch::async, [&]{
+                m_Result = API::GetInstance().SignUp(m_Credentials);
+            }).get();
+        }, ButtonOption::Animated());
         m_BackButton = Button("Back", ComponentManager::NavigateTo<HomePage>(), ButtonOption::Animated());
 
         Add(Container::Vertical({
@@ -33,6 +40,10 @@ namespace projcli::Components
             window(text("Sign up") | hcenter, vbox({
                 m_UsernameInput->Render() | borderRounded,
                 m_PasswordInput->Render() | borderRounded,
+                separatorEmpty(),
+                (m_Result.Message.empty()) ?
+                emptyElement() :
+                text(m_Result.Message) | hcenter,
                 separatorEmpty(),
                 hbox({
                     m_SendButton->Render(),

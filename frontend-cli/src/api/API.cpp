@@ -3,11 +3,17 @@
 #include <glaze/json/write.hpp>
 #include <httplib.h>
 
-namespace projcli::API
+namespace projcli
 {
     API::API() :
         m_Client("localhost", 8000)
     {}
+
+    API& API::GetInstance()
+    {
+        static API instance;
+        return instance;
+    }
 
     Result API::SignUp(const Credentials& credentials)
     {

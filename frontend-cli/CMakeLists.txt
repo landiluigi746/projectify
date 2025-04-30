@@ -28,6 +28,8 @@ CPMAddPackage(ftxui
 CPMAddPackage(cpp-httplib
     GITHUB_REPOSITORY yhirose/cpp-httplib
     GIT_TAG master
+    OPTIONS
+    "HTTPLIB_USE_ZSTD_IF_AVAILABLE OFF"
 )
 
 CPMAddPackage(glaze
