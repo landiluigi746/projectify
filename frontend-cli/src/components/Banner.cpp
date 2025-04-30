@@ -4,7 +4,7 @@
 
 using namespace ftxui;
 
-namespace projcli::Components::Utils
+namespace projcli::Components
 {
     Element Banner()
     {

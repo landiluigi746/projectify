@@ -1,5 +1,6 @@
 #include "Types.hpp"
-#include "app/ComponentManager.hpp"
+#include "app/PagesManager.hpp"
+#include "pages/Pages.hpp"
 #include "components/Components.hpp"
 #include "api/API.hpp"
 
@@ -10,7 +11,7 @@
 
 using namespace ftxui;
 
-namespace projcli::Components
+namespace projcli::Pages
 {
     SignUpPage::SignUpPage()
     {
@@ -22,7 +23,7 @@ namespace projcli::Components
                 m_Result = API::GetInstance().SignUp(m_Credentials);
             }).get();
         }, ButtonOption::Animated());
-        m_BackButton = Button("Back", ComponentManager::NavigateTo<HomePage>(), ButtonOption::Animated());
+        m_BackButton = Button("Back", PagesManager::NavigateTo<HomePage>(), ButtonOption::Animated());
 
         Add(Container::Vertical({
             m_UsernameInput,
@@ -35,7 +36,7 @@ namespace projcli::Components
     Element SignUpPage::OnRender()
     {
         return vbox({
-            Utils::Banner(),
+            Components::Banner(),
             separatorEmpty(),
             window(text("Sign up") | hcenter, vbox({
                 m_UsernameInput->Render() | borderRounded,

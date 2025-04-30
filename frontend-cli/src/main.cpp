@@ -1,13 +1,13 @@
-#include "app/ComponentManager.hpp"
-#include "components/Components.hpp"
+#include "app/PagesManager.hpp"
+#include "pages/Pages.hpp"
 
 using namespace projcli;
-using namespace projcli::Components;
+using namespace projcli::Pages;
 
 int main()
 {
-    ComponentManager::RegisterComponents<HomePage, SignUpPage, SignInPage, DashboardPage>();
-    ComponentManager::GetInstance().MainLoop();
+    PagesManager::RegisterPages<HomePage, SignUpPage, SignInPage, DashboardPage>();
+    PagesManager::GetInstance().MainLoop();
 
     return 0;
 }

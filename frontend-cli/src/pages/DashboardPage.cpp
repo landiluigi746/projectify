@@ -1,4 +1,5 @@
 #include "Types.hpp"
+#include "pages/Pages.hpp"
 #include "components/Components.hpp"
 
 #include <ftxui/component/component.hpp>
@@ -8,7 +9,7 @@
 
 using namespace ftxui;
 
-namespace projcli::Components
+namespace projcli::Pages
 {
     DashboardPage::DashboardPage()
     {
@@ -25,13 +26,10 @@ namespace projcli::Components
             };
         };
 
-        // for(int i = 0; i < 3; i++)
-        //     m_Projects.emplace_back(makeSampleProject());
-
         auto projectsContainer = Container::Vertical({});
 
         for(int i = 0; i < 3; i++)
-            projectsContainer->Add(ProjectCard(makeSampleProject()));
+            projectsContainer->Add(Components::ProjectCard(makeSampleProject()));
 
         Add(projectsContainer);
     }
@@ -39,7 +37,7 @@ namespace projcli::Components
     Element DashboardPage::OnRender()
     {
         return vbox({
-            Utils::Banner(),
+            Components::Banner(),
             separatorEmpty(),
             text("Your projects") | hcenter | bold,
             separatorEmpty(),

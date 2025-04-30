@@ -1,4 +1,5 @@
-#include "app/ComponentManager.hpp"
+#include "app/PagesManager.hpp"
+#include "pages/Pages.hpp"
 #include "components/Components.hpp"
 
 #include <ftxui/component/component.hpp>
@@ -7,13 +8,13 @@
 
 using namespace ftxui;
 
-namespace projcli::Components
+namespace projcli::Pages
 {
     HomePage::HomePage()
     {
-        m_SignInButton = Button("Sign In", ComponentManager::NavigateTo<SignInPage>(), ButtonOption::Animated());
-        m_SignUpButton = Button("Sign Up", ComponentManager::NavigateTo<SignUpPage>(), ButtonOption::Animated());
-        m_ExitButton = Button("Exit", ComponentManager::ExitClosure(), ButtonOption::Animated());
+        m_SignInButton = Button("Sign In", PagesManager::NavigateTo<SignInPage>(), ButtonOption::Animated());
+        m_SignUpButton = Button("Sign Up", PagesManager::NavigateTo<SignUpPage>(), ButtonOption::Animated());
+        m_ExitButton = Button("Exit", PagesManager::ExitClosure(), ButtonOption::Animated());
 
         Add(Container::Vertical({
             m_SignInButton,
@@ -25,7 +26,7 @@ namespace projcli::Components
     Element HomePage::OnRender()
     {
         return vbox({
-            Utils::Banner(),
+            Components::Banner(),
             separatorEmpty(),
             paragraphAlignCenter(
                 "Your go-to solution to organize projects and related links.\n"

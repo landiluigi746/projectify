@@ -1,16 +1,18 @@
 #include "Types.hpp"
-#include "app/ComponentManager.hpp"
+#include "app/PagesManager.hpp"
+#include "pages/Pages.hpp"
 #include "components/Components.hpp"
 #include "api/API.hpp"
 
 #include <ftxui/component/component.hpp>
+#include <ftxui/component/component_base.hpp>
 #include <ftxui/component/component_options.hpp>
 #include <ftxui/dom/elements.hpp>
 #include <future>
 
 using namespace ftxui;
 
-namespace projcli::Components
+namespace projcli::Pages
 {
     SignInPage::SignInPage()
     {
@@ -26,9 +28,9 @@ namespace projcli::Components
             }).get();
 
             std::this_thread::sleep_for(std::chrono::seconds(1));
-            ComponentManager::NavigateTo<DashboardPage>()();
+            PagesManager::NavigateTo<DashboardPage>()();
         }, ButtonOption::Animated());
-        m_BackButton = Button("Back", ComponentManager::NavigateTo<HomePage>(), ButtonOption::Animated());
+        m_BackButton = Button("Back", PagesManager::NavigateTo<HomePage>(), ButtonOption::Animated());
 
         Add(Container::Vertical({
             m_UsernameInput,
@@ -41,7 +43,7 @@ namespace projcli::Components
     Element SignInPage::OnRender()
     {
         return vbox({
-            Utils::Banner(),
+            Components::Banner(),
             separatorEmpty(),
             window(text("Sign in") | hcenter, vbox({
                 m_UsernameInput->Render() | borderRounded,
