@@ -11,7 +11,7 @@ namespace projcli::Components
 {
     HomePage::HomePage()
     {
-        m_SignInButton = Button("Sign In", []{}, ButtonOption::Animated());
+        m_SignInButton = Button("Sign In", ComponentManager::NavigateTo<SignInPage>(), ButtonOption::Animated());
         m_SignUpButton = Button("Sign Up", ComponentManager::NavigateTo<SignUpPage>(), ButtonOption::Animated());
         m_ExitButton = Button("Exit", ComponentManager::ExitClosure(), ButtonOption::Animated());
 

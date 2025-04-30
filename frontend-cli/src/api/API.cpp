@@ -52,7 +52,7 @@ namespace projcli
             case httplib::StatusCode::OK_200:
                 headers.emplace("Authorization", res.value().get_header_value("Authorization"));
                 m_Client.set_default_headers(headers);
-                return { Status::SUCCESS, "Successfully registered and logged in!" };
+                return { Status::SUCCESS, "Successfully logged in!" };
 
             case httplib::StatusCode::NotFound_404:
                 return { Status::FAILURE, "Failed to login!" };

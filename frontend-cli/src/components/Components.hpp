@@ -38,5 +38,19 @@ namespace projcli::Components
         ftxui::Component m_BackButton;
     };
 
-    // class SignInPage;
+    class SignInPage : public ftxui::ComponentBase
+    {
+    public:
+        SignInPage();
+        ftxui::Element OnRender() override;
+    private:
+        Credentials m_Credentials;
+        Result m_Result;
+
+        ftxui::Component m_UsernameInput;
+        ftxui::Component m_PasswordInput;
+
+        ftxui::Component m_SendButton;
+        ftxui::Component m_BackButton;
+    };
 }
