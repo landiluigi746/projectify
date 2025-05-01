@@ -26,18 +26,13 @@ namespace projcli::Pages
             };
         };
 
-        auto projectsContainer = Container::Vertical({});
-
-        for(int i = 0; i < 3; i++)
-            projectsContainer->Add(Components::ProjectCard(makeSampleProject()));
-
-        Add(projectsContainer);
+        Add(Components::ProjectList(std::vector<Project>(8, makeSampleProject())));
     }
 
     Element DashboardPage::OnRender()
     {
         return vbox({
-            Components::Banner(),
+            Components::Banner() | flex_grow,
             separatorEmpty(),
             text("Your projects") | hcenter | bold,
             separatorEmpty(),

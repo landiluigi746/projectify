@@ -8,4 +8,5 @@ namespace projcli::Components
 {
     ftxui::Element Banner();
     ftxui::Component ProjectCard(const Project& project);
+    ftxui::Component ProjectList(const std::vector<Project>& projects);
 }
