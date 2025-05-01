@@ -24,21 +24,25 @@ namespace projcli::Components
 
             Element OnRender() override
             {
-                return window(
-                    text(m_Project.name),
-                    vbox({
-                        paragraph(m_Project.description),
-                        separatorEmpty(),
-                        hbox({
-                            vbox({
-                                text(std::format("Completed tasks: {}/{}", m_Project.completedTasks, m_Project.totalTasks)),
-                                gauge((float)m_Project.completedTasks / m_Project.totalTasks)
+                return vbox({
+                    window(
+                        text(m_Project.name),
+                        vbox({
+                            paragraph(m_Project.description),
+                            separatorEmpty(),
+                            hbox({
+                                vbox({
+                                    text(std::format("Completed tasks: {}/{}", m_Project.completedTasks, m_Project.totalTasks)),
+                                    gauge((float)m_Project.completedTasks / m_Project.totalTasks)
+                                }),
+                                filler(),
+                                ComponentBase::Render() | align_right
                             }),
-                            filler(),
-                            ComponentBase::Render() | align_right
+                            separatorEmpty()
                         })
-                    })
-                ) | hcenter;
+                    ) | hcenter,
+                    separatorEmpty(),
+                });
             }
         private:
             Project m_Project;
