@@ -54,5 +54,6 @@ namespace projcli::Pages
     public:
         DashboardPage();
         ftxui::Element OnRender() override;
+        void OnEnter();
     };
 }

@@ -6,13 +6,20 @@
 #include <ftxui/component/component_base.hpp>
 #include <ftxui/component/component_options.hpp>
 #include <ftxui/dom/elements.hpp>
+#include <thread>
 
 using namespace ftxui;
 
 namespace projcli::Pages
 {
     DashboardPage::DashboardPage()
+    {}
+
+    void DashboardPage::OnEnter()
     {
+        // wait 3 seconds to simulate fetching data
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+
         auto makeSampleProject = [] {
             return Project{
                 .name = "Sample Project",

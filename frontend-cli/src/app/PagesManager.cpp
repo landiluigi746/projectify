@@ -8,7 +8,8 @@ namespace projcli
 {
     PagesManager::PagesManager() :
         m_Selected(0),
-        m_Screen(ftxui::ScreenInteractive::Fullscreen())
+        m_Screen(ftxui::ScreenInteractive::Fullscreen()),
+        m_Pages(ftxui::Container::Tab({}, &m_Selected))
     {}
 
     PagesManager& PagesManager::GetInstance()
@@ -19,16 +20,6 @@ namespace projcli
 
     void PagesManager::MainLoop()
     {
-        m_Screen.Loop(GetTabContainer());
-    }
-
-    ftxui::Component PagesManager::GetTabContainer()
-    {
-        ftxui::Components pages;
-
-        for(auto& [name, page]: m_Pages)
-            pages.emplace_back(page);
-
-        return ftxui::Container::Tab(pages, &m_Selected);
+        m_Screen.Loop(m_Pages);
     }
 }
