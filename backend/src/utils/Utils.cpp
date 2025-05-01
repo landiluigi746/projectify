@@ -62,7 +62,7 @@ namespace projectify::Utils
             .set_type("JWS")
             .set_issuer("projectify-auth")
             .set_issued_now()
-            .set_expires_in(std::chrono::seconds{3600})
+            .set_expires_in(Config::JWT_DURATION)
             .set_subject(std::to_string(id))
             .sign(jwt::algorithm::hs256{Config::JWT_SECRET});
     }
