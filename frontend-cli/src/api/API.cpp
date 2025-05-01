@@ -1,5 +1,7 @@
 #include "api/API.hpp"
+#include "utils/Utils.hpp"
 
+#include <cmath>
 #include <glaze/json/write.hpp>
 #include <httplib.h>
 
@@ -7,7 +9,9 @@ namespace projcli
 {
     API::API() :
         m_Client("localhost", 8000)
-    {}
+    {
+        m_Client.set_keep_alive(true);
+    }
 
     API& API::GetInstance()
     {
@@ -46,12 +50,16 @@ namespace projcli
             return { Status::FAILURE, httplib::to_string(res.error()) };
 
         httplib::Headers headers;
+        std::string jwt;
 
         switch(res.value().status)
         {
             case httplib::StatusCode::OK_200:
-                headers.emplace("Authorization", res.value().get_header_value("Authorization"));
+                jwt = res.value().get_header_value("Authorization");
+
+                headers.emplace("Authorization", jwt);
                 m_Client.set_default_headers(headers);
+                Utils::SaveJWT(jwt);
                 return { Status::SUCCESS, "Successfully logged in!" };
 
             case httplib::StatusCode::NotFound_404:
@@ -62,9 +70,17 @@ namespace projcli
         }
     }
 
-    Result API::TestSignedIn()
+    Result API::SignInWithStoredJWT()
     {
-        auto res = m_Client.Get("/protected");
+        auto jwt = Utils::LoadJWT();
+
+        if(jwt.empty())
+            return { Status::FAILURE, "No JWT found." };
+
+        httplib::Headers headers;
+        headers.emplace("Authorization", jwt);
+
+        auto res = m_Client.Post("/users/loginJWT", headers);
 
         if(!res)
             return { Status::FAILURE, httplib::to_string(res.error()) };
@@ -72,9 +88,12 @@ namespace projcli
         switch(res.value().status)
         {
             case httplib::StatusCode::OK_200:
-                return { Status::SUCCESS, "Successfully accessed /protected!" };
+                m_Client.set_default_headers(headers);
+                return { Status::SUCCESS, "Successfully logged in!" };
+
             case httplib::StatusCode::Unauthorized_401:
                 return { Status::FAILURE, "Not authorized." };
+
             default:
                 return { Status::FAILURE, "WTF?" };
         }

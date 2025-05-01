@@ -13,8 +13,7 @@ namespace projcli
 
         Result SignUp(const Credentials& credentials);
         Result SignIn(const Credentials& credentials);
-
-        Result TestSignedIn();
+        Result SignInWithStoredJWT();
     private:
         API();
 
