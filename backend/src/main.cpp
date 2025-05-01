@@ -5,6 +5,8 @@
 #include "middleware/Middlewares.hpp"
 
 #include <crow/app.h>
+#include <crow/common.h>
+#include <crow/http_response.h>
 
 using namespace projectify;
 
@@ -22,10 +24,11 @@ int main()
         return "Hello world from projectify backend!";
     });
 
-    CROW_ROUTE(app, "/protected")
+    CROW_ROUTE(app, "/users/loginJWT")
+        .methods("POST"_method)
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
     ([]{
-        return "Protected route test";
+        return crow::status::OK;
     });
 
     CROW_ROUTE(app, "/users/register")
