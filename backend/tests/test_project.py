@@ -26,6 +26,12 @@ projects = [
     make_project('Invalid desc2', ''),
 ]
 
+projects += [
+    make_project(
+        f'My big project {i}',
+        "A project that is very big. It has a lot of features and is designed to be scalable. It is built using modern technologies and follows best practices. It is designed to be scalable and maintainable, with a focus on performance and security."
+    ) for i in range(1, 4)]
+
 def do_login(user):
     s = requests.Session()
     res = s.post(BACKEND_URL + '/users/login', json=user)
@@ -37,7 +43,7 @@ def do_login(user):
 
 def reg_test(user):
     s = do_login(user)
-    
+
     for project in projects:
         res = s.post(BACKEND_URL + '/projects/register', json=project)
 
@@ -57,10 +63,10 @@ def get_test(user):
         print(f"Projects: {res.json()}")
 
 
-# reg_test(registered_user)
-# time.sleep(4)
+reg_test(registered_user)
+time.sleep(4)
 # reg_test(unregistered_user)
 # time.sleep(4)
 get_test(registered_user)
-time.sleep(4)
-get_test(unregistered_user)
+# time.sleep(4)
+# get_test(unregistered_user)
