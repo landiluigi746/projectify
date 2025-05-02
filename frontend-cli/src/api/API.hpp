@@ -14,6 +14,8 @@ namespace projcli
         Result SignUp(const Credentials& credentials);
         Result SignIn(const Credentials& credentials);
         Result SignInWithStoredJWT();
+
+        std::pair<Result, std::vector<Project>> GetProjects();
     private:
         API();
 

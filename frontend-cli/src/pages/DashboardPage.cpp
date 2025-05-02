@@ -1,12 +1,12 @@
 #include "Types.hpp"
 #include "pages/Pages.hpp"
 #include "components/Components.hpp"
+#include "api/API.hpp"
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/component_base.hpp>
 #include <ftxui/component/component_options.hpp>
 #include <ftxui/dom/elements.hpp>
-#include <thread>
 
 using namespace ftxui;
 
@@ -17,33 +17,33 @@ namespace projcli::Pages
 
     void DashboardPage::OnEnter()
     {
-        // wait 3 seconds to simulate fetching data
-        std::this_thread::sleep_for(std::chrono::seconds(3));
+        const auto [result, projects] = API::GetInstance().GetProjects();
 
-        auto makeSampleProject = [] {
-            return Project{
-                .name = "Sample Project",
-                .description =
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu est cursus,\n"
-                    "semper ligula et, maximus velit. Proin eu malesuada enim. Donec a odio sit amet\n"
-                    "sem elementum ornare sit amet non felis. Nullam quis est a tellus consequat ultrices.\n"
-                    "Sed sed nisl placerat lacus faucibus lacinia.",
-                .completedTasks = 4,
-                .totalTasks = 10
-            };
-        };
+        if(result.StatusCode == Status::FAILURE)
+        {
+            Add(Renderer([] {
+                return vbox({
+                    text("Failed to fetch projects") | hcenter | bold,
+                    separatorEmpty(),
+                    text("Please try again later") | hcenter
+                });
+            }));
 
-        Add(Components::ProjectList(std::vector<Project>(8, makeSampleProject())));
+            return;
+        }
+
+        Add(Components::ProjectList(projects));
     }
 
     Element DashboardPage::OnRender()
     {
         return vbox({
-            Components::Banner() | flex_grow,
+            Components::Banner(),
             separatorEmpty(),
             text("Your projects") | hcenter | bold,
             separatorEmpty(),
-            ComponentBase::Render()
+            ComponentBase::Render(),
+            separatorEmpty() | yflex
         });
     }
 }

@@ -31,16 +31,18 @@ namespace projcli::Components
                             paragraph(m_Project.description),
                             separatorEmpty(),
                             hbox({
-                                vbox({
-                                    text(std::format("Completed tasks: {}/{}", m_Project.completedTasks, m_Project.totalTasks)),
-                                    gauge((float)m_Project.completedTasks / m_Project.totalTasks)
-                                }),
+                                ((m_Project.totalTasks > 0)
+                                    ? vbox({
+                                        text(std::format("Completed tasks: {}/{}", m_Project.completedTasks, m_Project.totalTasks)),
+                                        gauge((float)m_Project.completedTasks / m_Project.totalTasks) | color(Color::Green) |bgcolor(Color::Red)
+                                    })
+                                    : text("This project has no tasks.")
+                                ),
                                 filler(),
                                 ComponentBase::Render() | align_right
-                            }),
-                            separatorEmpty()
+                            })
                         })
-                    ) | hcenter,
+                    ) | size(WIDTH, EQUAL, 70) | hcenter ,
                     separatorEmpty(),
                 });
             }

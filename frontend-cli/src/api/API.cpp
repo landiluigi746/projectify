@@ -1,9 +1,13 @@
 #include "api/API.hpp"
+#include "Types.hpp"
 #include "utils/Utils.hpp"
 
 #include <cmath>
+#include <glaze/core/read.hpp>
 #include <glaze/json/write.hpp>
 #include <httplib.h>
+#include <memory>
+#include <utility>
 
 namespace projcli
 {
@@ -96,6 +100,31 @@ namespace projcli
 
             default:
                 return { Status::FAILURE, "WTF?" };
+        }
+    }
+
+    std::pair<Result, std::vector<Project>> API::GetProjects()
+    {
+        auto res = m_Client.Post("/projects/get");
+
+        if(!res)
+            return std::make_pair(Result{ Status::FAILURE, httplib::to_string(res.error()) }, std::vector<Project>());
+
+        std::vector<Project> projects;
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::OK_200:
+                if(glz::read_json(projects, res.value().body))
+                    return std::make_pair(Result{ Status::FAILURE, "Failed to parse JSON response." }, std::vector<Project>());
+
+                return std::make_pair(Result{ Status::SUCCESS, "Successfully fetched projects!" }, projects);
+
+            case httplib::StatusCode::Unauthorized_401:
+                return std::make_pair(Result{ Status::FAILURE, "Not authorized." }, std::vector<Project>());
+
+            default:
+                return std::make_pair(Result{ Status::FAILURE, "WTF?" }, std::vector<Project>());
         }
     }
 }

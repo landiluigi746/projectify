@@ -24,7 +24,7 @@ namespace projcli::Components
                     m_ProjectsContainer->Add(ProjectCard(project));
 
                 Add(Renderer(m_ProjectsContainer, [&] {
-                    return m_ProjectsContainer->Render() | vscroll_indicator | yframe | yflex;
+                    return m_ProjectsContainer->Render() | vscroll_indicator | yframe;
                 }));
             }
         private:
