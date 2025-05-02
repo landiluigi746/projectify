@@ -34,14 +34,8 @@ namespace projcli
             case httplib::StatusCode::Created_201:
                 return SignIn(credentials);
 
-            case httplib::StatusCode::BadRequest_400:
-                return { Status::FAILURE, "Username or password invalid." };
-
-            case httplib::StatusCode::Conflict_409:
-                return { Status::FAILURE, "This username is already registered." };
-
             default:
-                return { Status::FAILURE, "An unknown error occurred." };
+                return { Status::FAILURE, res.value().body };
         }
     }
 
@@ -65,11 +59,8 @@ namespace projcli
                 Utils::SaveJWT(jwt);
                 return { Status::SUCCESS, "Successfully logged in!" };
 
-            case httplib::StatusCode::NotFound_404:
-                return { Status::FAILURE, "Failed to login!" };
-
             default:
-                return { Status::FAILURE, "An unknown error occurred." };
+                return { Status::FAILURE, res.value().body };
         }
     }
 
@@ -94,11 +85,8 @@ namespace projcli
                 m_Client.set_default_headers(headers);
                 return { Status::SUCCESS, "Successfully logged in!" };
 
-            case httplib::StatusCode::Unauthorized_401:
-                return { Status::FAILURE, "Not authorized." };
-
             default:
-                return { Status::FAILURE, "WTF?" };
+                return { Status::FAILURE, res.value().body };
         }
     }
 
@@ -119,11 +107,8 @@ namespace projcli
 
                 return std::make_pair(Result{ Status::SUCCESS, "Successfully fetched projects!" }, projects);
 
-            case httplib::StatusCode::Unauthorized_401:
-                return std::make_pair(Result{ Status::FAILURE, "Not authorized." }, std::vector<Project>());
-
             default:
-                return std::make_pair(Result{ Status::FAILURE, "WTF?" }, std::vector<Project>());
+                return std::make_pair(Result{ Status::FAILURE, res.value().body }, std::vector<Project>());
         }
     }
 
@@ -141,11 +126,8 @@ namespace projcli
             case httplib::StatusCode::Created_201:
                 return Result{ Status::SUCCESS, "Successfully created project!" };
 
-            case httplib::StatusCode::Unauthorized_401:
-                return Result{ Status::FAILURE, "Not authorized." };
-
             default:
-                return Result{ Status::FAILURE, "WTF?" };
+                return Result{ Status::FAILURE, res.value().body };
         }
     }
 }
