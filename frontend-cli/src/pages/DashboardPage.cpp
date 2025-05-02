@@ -1,4 +1,5 @@
 #include "Types.hpp"
+#include "app/PagesManager.hpp"
 #include "pages/Pages.hpp"
 #include "components/Components.hpp"
 #include "api/API.hpp"
@@ -14,13 +15,16 @@ namespace projcli::Pages
 {
     DashboardPage::DashboardPage()
     {
+        m_NewProjectButton = Button("Add Project", PagesManager::NavigateTo<NewProjectPage>(), ButtonOption::Animated());
+
+        Add(m_NewProjectButton);
         Add(Components::ToastComponent("Loading projects...", Components::ToastType::INFO));
     }
 
     void DashboardPage::OnEnter()
     {
         const auto [result, projects] = API::GetInstance().GetProjects();
-        DetachAllChildren();
+        ChildAt(ChildCount() - 1)->Detach();
 
         Add((result.StatusCode == Status::SUCCESS)
             ? Components::ProjectList(projects)
@@ -35,7 +39,9 @@ namespace projcli::Pages
             separatorEmpty(),
             text("Your projects") | hcenter | bold,
             separatorEmpty(),
-            ComponentBase::Render(),
+            ChildAt(0)->Render() | hcenter,
+            separatorEmpty(),
+            ChildAt(ChildCount() - 1)->Render(),
             separatorEmpty() | yflex
         });
     }

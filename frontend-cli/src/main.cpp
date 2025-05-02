@@ -9,7 +9,13 @@ using namespace projcli::Pages;
 
 int main()
 {
-    PagesManager::RegisterPages<HomePage, SignUpPage, SignInPage, DashboardPage>();
+    PagesManager::RegisterPages<
+        HomePage,
+        SignUpPage,
+        SignInPage,
+        DashboardPage,
+        NewProjectPage
+    >();
 
     const Result result = API::GetInstance().SignInWithStoredJWT();
 

@@ -59,5 +59,26 @@ namespace projcli::Pages
         DashboardPage();
         ftxui::Element OnRender() override;
         void OnEnter();
+    private:
+        ftxui::Component m_NewProjectButton;
     };
+
+    class NewProjectPage : public ftxui::ComponentBase
+    {
+    public:
+        NewProjectPage();
+        ftxui::Element OnRender() override;
+    private:
+        void DoCreateProject();
+
+        std::string m_ProjectName;
+        std::string m_ProjectDescription;
+        Result m_Result;
+
+        ftxui::Component m_ProjectNameInput;
+        ftxui::Component m_ProjectDescriptionInput;
+        ftxui::Component m_CreateButton;
+        ftxui::Component m_BackButton;
+    };
+
 }
