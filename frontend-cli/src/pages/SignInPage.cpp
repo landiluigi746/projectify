@@ -26,7 +26,6 @@ namespace projcli::Pages
         m_SendButton = Button("Sign In", [&]{
             s_Future = std::async(std::launch::async, [&]{
                 {
-
                     std::lock_guard<std::mutex> lock(s_Mutex);
                     m_Result = API::GetInstance().SignIn(m_Credentials);
 
