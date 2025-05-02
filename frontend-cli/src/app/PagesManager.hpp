@@ -29,13 +29,13 @@ namespace projcli
 
         static PagesManager& GetInstance();
 
-        template<typename Page>
-        static ftxui::Closure NavigateTo()
+        template<typename Page, typename... Args>
+        static ftxui::Closure NavigateTo(Args&&... args)
         {
             static_assert((std::is_base_of_v<ftxui::ComponentBase, Page>), "Page must derive from ftxui::ComponentBase!");
 
-            return [] {
-                GetInstance().NavigateTo_Internal<Page>();
+            return [&] {
+                GetInstance().NavigateTo_Internal<Page>(std::forward<Args>(args)...);
             };
         }
 

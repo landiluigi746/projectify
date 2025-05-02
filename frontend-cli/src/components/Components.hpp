@@ -10,6 +10,9 @@ namespace projcli::Components
     ftxui::Component ProjectCard(const Project& project);
     ftxui::Component ProjectList(const std::vector<Project>& projects);
 
+    ftxui::Component TaskCard(const Task& task);
+    ftxui::Component TaskList(const std::vector<Task>& tasks);
+
     enum class ToastType
     {
         INFO,

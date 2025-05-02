@@ -81,4 +81,13 @@ namespace projcli::Pages
         ftxui::Component m_BackButton;
     };
 
+    class ProjectDetailsPage : public ftxui::ComponentBase
+    {
+    public:
+        ProjectDetailsPage();
+        ftxui::Element OnRender() override;
+        void OnEnter(const Project& project);
+    private:
+        Project m_Project;
+    };
 }

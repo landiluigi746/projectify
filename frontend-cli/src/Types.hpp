@@ -41,4 +41,12 @@ namespace projcli
         int completedTasks;
         int totalTasks;
     };
+
+    struct Task
+    {
+        int ID;
+        int projectID;
+        std::string name;
+        bool completed;
+    };
 }

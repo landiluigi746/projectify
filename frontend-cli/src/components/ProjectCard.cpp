@@ -1,4 +1,6 @@
 #include "Types.hpp"
+#include "app/PagesManager.hpp"
+#include "pages/Pages.hpp"
 #include "components/Components.hpp"
 
 #include <cmath>
@@ -19,7 +21,11 @@ namespace projcli::Components
             Impl(const Project& project) :
                 m_Project(project)
             {
-                Add(ftxui::Button("See Details", []{}, ButtonOption::Animated()));
+                Add(ftxui::Button(
+                    "See Details",
+                    PagesManager::NavigateTo<Pages::ProjectDetailsPage>(m_Project),
+                    ButtonOption::Animated()
+                ));
             }
 
             Element OnRender() override
