@@ -39,7 +39,7 @@ namespace projectify::Database
                 conn->prepare("check_user_exists", R"(SELECT 1 FROM users WHERE ID = $1)");
                 conn->prepare("check_project_exists_name", R"(SELECT 1 FROM projects WHERE creatorID = $1 AND name = $2)");
                 conn->prepare("check_project_exists_id", R"(SELECT 1 FROM projects WHERE ID = $1 AND creatorID = $2)");
-                
+
                 conn->prepare("check_task_exists_name", R"(
                     SELECT 1
                     FROM projects_tasks task
@@ -99,7 +99,7 @@ namespace projectify::Database
                 )");
 
                 conn->prepare("get_tasks_status", R"(
-                    SELECT COUNT(*), SUM(completed::int)
+                    SELECT COUNT(*), COALESCE(SUM(completed::int), 0)
                     FROM projects_tasks
                     WHERE projectID = $1
                 )");
