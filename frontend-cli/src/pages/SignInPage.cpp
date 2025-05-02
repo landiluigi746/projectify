@@ -4,6 +4,7 @@
 #include "components/Components.hpp"
 #include "api/API.hpp"
 
+#include <cmath>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/component_base.hpp>
 #include <ftxui/component/component_options.hpp>
@@ -14,22 +15,32 @@ using namespace ftxui;
 
 namespace projcli::Pages
 {
+    static std::future<void> s_Future;
+    static std::mutex s_Mutex;
+
     SignInPage::SignInPage()
     {
         m_UsernameInput = Input(&m_Credentials.username, "Username");
         m_PasswordInput = Input(&m_Credentials.password, "Password", InputOption{ .password = true });
 
         m_SendButton = Button("Sign In", [&]{
-            std::async(std::launch::async, [&]{
-                m_Result = API::GetInstance().SignIn(m_Credentials);
+            s_Future = std::async(std::launch::async, [&]{
+                {
 
-                if(m_Result.StatusCode == Status::FAILURE)
-                    return;
-            }).get();
+                    std::lock_guard<std::mutex> lock(s_Mutex);
+                    m_Result = API::GetInstance().SignIn(m_Credentials);
 
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            PagesManager::NavigateTo<DashboardPage>()();
+                    if(m_Result.StatusCode == Status::FAILURE)
+                        return;
+                }
+
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+
+                std::lock_guard<std::mutex> lock(s_Mutex);
+                PagesManager::NavigateTo<DashboardPage>()();
+            });
         }, ButtonOption::Animated());
+
         m_BackButton = Button("Back", PagesManager::NavigateTo<HomePage>(), ButtonOption::Animated());
 
         Add(Container::Vertical({
@@ -42,23 +53,32 @@ namespace projcli::Pages
 
     Element SignInPage::OnRender()
     {
+        auto toast = (m_Result.Message.empty())
+            ? emptyElement()
+            : Components::Toast(m_Result.Message,
+                (m_Result.StatusCode == Status::SUCCESS)
+                ? Components::ToastType::SUCCESS
+                : Components::ToastType::ERROR
+            );
+
         return vbox({
             Components::Banner(),
             separatorEmpty(),
-            window(text("Sign in") | hcenter, vbox({
-                m_UsernameInput->Render() | borderRounded,
-                m_PasswordInput->Render() | borderRounded,
-                separatorEmpty(),
-                (m_Result.Message.empty()) ?
-                emptyElement() :
-                text(m_Result.Message) | hcenter,
-                separatorEmpty(),
-                hbox({
-                    m_SendButton->Render(),
-                    separatorEmpty(),
-                    m_BackButton->Render()
-                }) | hcenter
-            }))
+            window(
+                text("Sign in") | hcenter,
+                vbox({
+                    m_UsernameInput->Render() | borderRounded,
+                    m_PasswordInput->Render() | borderRounded,
+
+                    std::move(toast),
+
+                    hbox({
+                        m_SendButton->Render(),
+                        separatorEmpty(),
+                        m_BackButton->Render()
+                    }) | hcenter
+                })
+            )
         }) | center | flex | borderRounded;
     }
 }

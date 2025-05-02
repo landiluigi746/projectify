@@ -6,7 +6,6 @@
 #include <glaze/core/read.hpp>
 #include <glaze/json/write.hpp>
 #include <httplib.h>
-#include <memory>
 #include <utility>
 
 namespace projcli

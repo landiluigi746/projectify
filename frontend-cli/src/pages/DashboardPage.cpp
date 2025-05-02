@@ -13,26 +13,19 @@ using namespace ftxui;
 namespace projcli::Pages
 {
     DashboardPage::DashboardPage()
-    {}
+    {
+        Add(Components::ToastComponent("Loading projects...", Components::ToastType::INFO));
+    }
 
     void DashboardPage::OnEnter()
     {
         const auto [result, projects] = API::GetInstance().GetProjects();
+        DetachAllChildren();
 
-        if(result.StatusCode == Status::FAILURE)
-        {
-            Add(Renderer([] {
-                return vbox({
-                    text("Failed to fetch projects") | hcenter | bold,
-                    separatorEmpty(),
-                    text("Please try again later") | hcenter
-                });
-            }));
-
-            return;
-        }
-
-        Add(Components::ProjectList(projects));
+        Add((result.StatusCode == Status::SUCCESS)
+            ? Components::ProjectList(projects)
+            : Components::ToastComponent("Failed to fetch projects", Components::ToastType::ERROR)
+        );
     }
 
     Element DashboardPage::OnRender()

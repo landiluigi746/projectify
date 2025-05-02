@@ -35,17 +35,23 @@ namespace projcli::Pages
 
     Element SignUpPage::OnRender()
     {
+        auto toast = (m_Result.Message.empty())
+            ? emptyElement()
+            : Components::Toast(m_Result.Message,
+                (m_Result.StatusCode == Status::SUCCESS)
+                ? Components::ToastType::SUCCESS
+                : Components::ToastType::ERROR
+            );
+
         return vbox({
             Components::Banner(),
             separatorEmpty(),
             window(text("Sign up") | hcenter, vbox({
                 m_UsernameInput->Render() | borderRounded,
                 m_PasswordInput->Render() | borderRounded,
-                separatorEmpty(),
-                (m_Result.Message.empty()) ?
-                emptyElement() :
-                text(m_Result.Message) | hcenter,
-                separatorEmpty(),
+
+                std::move(toast),
+
                 hbox({
                     m_SendButton->Render(),
                     separatorEmpty(),
