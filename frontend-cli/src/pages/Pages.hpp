@@ -23,6 +23,8 @@ namespace projcli::Pages
         SignUpPage();
         ftxui::Element OnRender() override;
     private:
+        void DoSignUp();
+
         Credentials m_Credentials;
         Result m_Result;
 
@@ -39,6 +41,8 @@ namespace projcli::Pages
         SignInPage();
         ftxui::Element OnRender() override;
     private:
+        void DoSignIn();
+
         Credentials m_Credentials;
         Result m_Result;
 

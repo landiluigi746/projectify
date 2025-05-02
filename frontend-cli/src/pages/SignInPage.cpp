@@ -24,20 +24,7 @@ namespace projcli::Pages
         m_PasswordInput = Input(&m_Credentials.password, "Password", InputOption{ .password = true });
 
         m_SendButton = Button("Sign In", [&]{
-            s_Future = std::async(std::launch::async, [&]{
-                {
-                    std::lock_guard<std::mutex> lock(s_Mutex);
-                    m_Result = API::GetInstance().SignIn(m_Credentials);
-
-                    if(m_Result.StatusCode == Status::FAILURE)
-                        return;
-                }
-
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-
-                std::lock_guard<std::mutex> lock(s_Mutex);
-                PagesManager::NavigateTo<DashboardPage>()();
-            });
+            DoSignIn();
         }, ButtonOption::Animated());
 
         m_BackButton = Button("Back", PagesManager::NavigateTo<HomePage>(), ButtonOption::Animated());
@@ -80,4 +67,23 @@ namespace projcli::Pages
             )
         }) | center | flex | borderRounded;
     }
+
+    void SignInPage::DoSignIn()
+    {
+        s_Future = std::async(std::launch::async, [&]{
+            {
+                std::lock_guard<std::mutex> lock(s_Mutex);
+                m_Result = API::GetInstance().SignIn(m_Credentials);
+
+                if(m_Result.StatusCode == Status::FAILURE)
+                    return;
+            }
+
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+
+            std::lock_guard<std::mutex> lock(s_Mutex);
+            PagesManager::NavigateTo<DashboardPage>()();
+        });
+    }
+
 }
