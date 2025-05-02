@@ -126,4 +126,26 @@ namespace projcli
                 return std::make_pair(Result{ Status::FAILURE, "WTF?" }, std::vector<Project>());
         }
     }
+
+    Result API::CreateProject(std::string_view name, std::string_view description)
+    {
+        Project project = { -1, std::string(name), std::string(description), -1, -1 };
+
+        auto res = m_Client.Post("/projects/register", glz::write_json(project).value(), "application/json");
+
+        if(!res)
+            return Result{ Status::FAILURE, httplib::to_string(res.error()) };
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::Created_201:
+                return Result{ Status::SUCCESS, "Successfully created project!" };
+
+            case httplib::StatusCode::Unauthorized_401:
+                return Result{ Status::FAILURE, "Not authorized." };
+
+            default:
+                return Result{ Status::FAILURE, "WTF?" };
+        }
+    }
 }

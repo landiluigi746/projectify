@@ -16,6 +16,7 @@ namespace projcli
         Result SignInWithStoredJWT();
 
         std::pair<Result, std::vector<Project>> GetProjects();
+        Result CreateProject(std::string_view name, std::string_view description);
     private:
         API();
 

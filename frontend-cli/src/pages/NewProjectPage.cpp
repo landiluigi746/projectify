@@ -14,6 +14,9 @@ using namespace ftxui;
 
 namespace projcli::Pages
 {
+    std::future<void> s_Future;
+    std::mutex s_Mutex;
+
     NewProjectPage::NewProjectPage()
     {
         m_ProjectNameInput = Input(&m_ProjectName, "Project name");
@@ -66,9 +69,19 @@ namespace projcli::Pages
 
     void NewProjectPage::DoCreateProject()
     {
-        // simulate project creation
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        m_Result.Message = "Project created successfully";
-        m_Result.StatusCode = Status::SUCCESS;
+        s_Future = std::async(std::launch::async, [&]{
+            {
+                std::lock_guard<std::mutex> lock(s_Mutex);
+                m_Result = API::GetInstance().CreateProject(m_ProjectName, m_ProjectDescription);
+
+                if(m_Result.StatusCode == Status::FAILURE)
+                    return;
+            }
+
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+
+            std::lock_guard<std::mutex> lock(s_Mutex);
+            PagesManager::NavigateTo<DashboardPage>()();
+        });
     }
 }
