@@ -50,6 +50,11 @@ namespace projcli
             return GetInstance().m_Screen.ExitLoopClosure();
         }
 
+        static const ftxui::ScreenInteractive& Screen()
+        {
+            return GetInstance().m_Screen;
+        }
+
         void MainLoop();
     private:
         PagesManager();

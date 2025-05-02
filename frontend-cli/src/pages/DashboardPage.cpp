@@ -8,6 +8,7 @@
 #include <ftxui/component/component_base.hpp>
 #include <ftxui/component/component_options.hpp>
 #include <ftxui/dom/elements.hpp>
+#include <ftxui/dom/flexbox_config.hpp>
 
 using namespace ftxui;
 
@@ -34,15 +35,23 @@ namespace projcli::Pages
 
     Element DashboardPage::OnRender()
     {
-        return vbox({
+        Element header = vbox({
             Components::Banner(),
             separatorEmpty(),
             text("Your projects") | hcenter | bold,
             separatorEmpty(),
             ChildAt(0)->Render() | hcenter,
             separatorEmpty(),
-            ChildAt(ChildCount() - 1)->Render(),
-            separatorEmpty() | yflex
+        });
+        header->ComputeRequirement();
+
+        Element content = ChildAt(ChildCount() - 1)->Render();
+
+        int correctContentHeight = PagesManager::Screen().dimy() - header->requirement().min_y;
+
+        return vbox({
+            header,
+            content | size(HEIGHT, EQUAL, correctContentHeight)
         });
     }
 }

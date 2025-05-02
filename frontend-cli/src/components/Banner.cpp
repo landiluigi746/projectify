@@ -17,6 +17,6 @@ namespace projcli::Components
             text(R"( | .__/ |_|   \___/ | | \___| \___| \__||_||_|   \__, |)"),
             text(R"( | |               _/ |                           __/ |)"),
             text(R"( |_|              |__/                           |___/ )")
-        }) | size(HEIGHT, EQUAL, 10) | hcenter | bold;
+        }) | hcenter | bold;
     }
 }
