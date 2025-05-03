@@ -9,15 +9,11 @@
 #include <ftxui/component/component_base.hpp>
 #include <ftxui/component/component_options.hpp>
 #include <ftxui/dom/elements.hpp>
-#include <future>
 
 using namespace ftxui;
 
 namespace projcli::Pages
 {
-    static std::future<void> s_Future;
-    static std::mutex s_Mutex;
-
     SignInPage::SignInPage()
     {
         m_UsernameInput = Input(&m_Credentials.username, "Username");
@@ -70,20 +66,12 @@ namespace projcli::Pages
 
     void SignInPage::DoSignIn()
     {
-        s_Future = std::async(std::launch::async, [&]{
-            {
-                std::lock_guard<std::mutex> lock(s_Mutex);
-                m_Result = API::GetInstance().SignIn(m_Credentials);
+        m_Result = API::GetInstance().SignIn(m_Credentials);
 
-                if(m_Result.StatusCode == Status::FAILURE)
-                    return;
-            }
+        if(m_Result.StatusCode == Status::FAILURE)
+            return;
 
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-
-            std::lock_guard<std::mutex> lock(s_Mutex);
-            PagesManager::NavigateTo<DashboardPage>()();
-        });
+        PagesManager::NavigateTo<DashboardPage>()();
     }
 
 }
