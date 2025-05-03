@@ -3,8 +3,7 @@
 #include "utils/Utils.hpp"
 
 #include <cmath>
-#include <glaze/core/read.hpp>
-#include <glaze/json/write.hpp>
+#include <glaze/glaze.hpp>
 #include <httplib.h>
 #include <utility>
 
@@ -128,6 +127,29 @@ namespace projcli
 
             default:
                 return Result{ Status::FAILURE, res.value().body };
+        }
+    }
+
+    std::pair<Result, std::vector<Task>> API::GetTasks(int projectID)
+    {
+        glz::json_t json = {{"projectID", projectID}};
+        auto res = m_Client.Post("/tasks/get", glz::write_json(json).value(), "application/json");
+
+        if(!res)
+            return std::make_pair(Result{ Status::FAILURE, httplib::to_string(res.error()) }, std::vector<Task>());
+
+        std::vector<Task> tasks;
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::OK_200:
+                if(glz::read_json(tasks, res.value().body))
+                    return std::make_pair(Result{ Status::FAILURE, "Failed to parse JSON response." }, std::vector<Task>());
+
+                return std::make_pair(Result{ Status::SUCCESS, "Successfully fetched tasks!" }, tasks);
+
+            default:
+                return std::make_pair(Result{ Status::FAILURE, res.value().body }, std::vector<Task>());
         }
     }
 }

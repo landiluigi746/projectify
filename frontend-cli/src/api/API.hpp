@@ -17,6 +17,8 @@ namespace projcli
 
         std::pair<Result, std::vector<Project>> GetProjects();
         Result CreateProject(std::string_view name, std::string_view description);
+
+        std::pair<Result, std::vector<Task>> GetTasks(int projectID);
     private:
         API();
 

@@ -2,6 +2,7 @@
 #include "app/PagesManager.hpp"
 #include "pages/Pages.hpp"
 #include "components/Components.hpp"
+#include "api/API.hpp"
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/component_base.hpp>
@@ -51,21 +52,11 @@ namespace projcli::Pages
         ChildAt(ChildCount() - 1)->Detach();
         m_Project = project;
 
-        auto makeTask = [&](int i){
-            return projcli::Task{
-                -1,
-                project.ID,
-                std::format("Task {}", ++i),
-                (i % 3 == 0)
-            };
-        };
+        const auto [result, tasks] = API::GetInstance().GetTasks(project.ID);
 
-        std::vector<projcli::Task> tasks;
-        tasks.reserve(40);
-
-        for (int i = 0; i < 40; ++i)
-            tasks.emplace_back(makeTask(i));
-
-        Add(Components::TaskList(tasks));
+        Add((result.StatusCode == Status::SUCCESS)
+            ? Components::TaskList(tasks)
+            : Components::ToastComponent("Failed to load tasks", Components::ToastType::ERROR)
+        );
     }
 }

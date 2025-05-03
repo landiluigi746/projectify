@@ -41,7 +41,7 @@ def do_login(user):
 
 def reg_test(user):
     s = do_login(user)
-    
+
     for task in tasks:
         res = s.post(BACKEND_URL + '/tasks/register', json=task)
 
@@ -73,7 +73,7 @@ def get_test(user):
 
 def toggle_test(user):
     s = do_login(user)
-    
+
     for payload in toggle_payloads:
         res = s.post(BACKEND_URL + '/tasks/toggleStatus', json=payload)
 
