@@ -35,7 +35,7 @@ namespace projcli::Components
 
     ftxui::Component ToastComponent(std::string_view message, ToastType type)
     {
-        return Renderer([&] {
+        return Renderer([=] {
             return Components::Toast(message, type);
         });
     }
