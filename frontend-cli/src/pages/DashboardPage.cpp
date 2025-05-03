@@ -16,9 +16,11 @@ namespace projcli::Pages
 {
     DashboardPage::DashboardPage()
     {
-        m_NewProjectButton = Button("Add Project", PagesManager::NavigateTo<NewProjectPage>(), ButtonOption::Animated());
+        Add(Container::Horizontal({
+            Button("Add Project", PagesManager::NavigateTo<NewProjectPage>(), ButtonOption::Animated()),
+            Button("Exit", PagesManager::ExitClosure(),  ButtonOption::Animated()),
+        }));
 
-        Add(m_NewProjectButton);
         Add(Components::ToastComponent("Loading projects...", Status::INFO));
     }
 

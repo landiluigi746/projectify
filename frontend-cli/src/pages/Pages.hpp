@@ -59,8 +59,6 @@ namespace projcli::Pages
         DashboardPage();
         ftxui::Element OnRender() override;
         void OnEnter();
-    private:
-        ftxui::Component m_NewProjectButton;
     };
 
     class NewProjectPage : public ftxui::ComponentBase
