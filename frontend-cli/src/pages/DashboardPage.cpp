@@ -19,7 +19,7 @@ namespace projcli::Pages
         m_NewProjectButton = Button("Add Project", PagesManager::NavigateTo<NewProjectPage>(), ButtonOption::Animated());
 
         Add(m_NewProjectButton);
-        Add(Components::ToastComponent("Loading projects...", Components::ToastType::INFO));
+        Add(Components::ToastComponent("Loading projects...", Status::INFO));
     }
 
     void DashboardPage::OnEnter()
@@ -29,7 +29,7 @@ namespace projcli::Pages
 
         Add((result.StatusCode == Status::SUCCESS)
             ? Components::ProjectList(projects)
-            : Components::ToastComponent("Failed to fetch projects", Components::ToastType::ERROR)
+            : Components::ToastComponent("Failed to fetch projects", Status::FAILURE)
         );
     }
 

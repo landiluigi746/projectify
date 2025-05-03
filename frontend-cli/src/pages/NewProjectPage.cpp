@@ -33,14 +33,6 @@ namespace projcli::Pages
 
     Element NewProjectPage::OnRender()
     {
-        auto toast = (m_Result.Message.empty())
-            ? emptyElement()
-            : Components::Toast(m_Result.Message,
-                (m_Result.StatusCode == Status::SUCCESS)
-                ? Components::ToastType::SUCCESS
-                : Components::ToastType::ERROR
-            );
-
         return vbox({
             Components::Banner(),
             separatorEmpty(),
@@ -50,7 +42,7 @@ namespace projcli::Pages
                     m_ProjectNameInput->Render() | borderRounded,
                     m_ProjectDescriptionInput->Render() | borderRounded,
 
-                    std::move(toast),
+                    Components::Toast(m_Result.Message, m_Result.StatusCode),
 
                     hbox({
                         m_CreateButton->Render(),

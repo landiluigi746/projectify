@@ -12,20 +12,10 @@ namespace projcli
 
     enum class Status
     {
+        INFO,
         SUCCESS,
         FAILURE
     };
-
-    constexpr const char* StatusToString(Status status) noexcept
-    {
-        switch(status)
-        {
-            case Status::SUCCESS:   return "Success";
-            case Status::FAILURE:   return "Failure";
-        }
-
-        return "Unknown";
-    }
 
     struct Result
     {

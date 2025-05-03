@@ -9,19 +9,22 @@ using namespace ftxui;
 
 namespace projcli::Components
 {
-    ftxui::Element Toast(std::string_view message, ToastType type)
+    ftxui::Element Toast(std::string_view message, Status type)
     {
+        if(message.empty())
+            return emptyElement();
+
         ftxui::Color messageColor;
 
         switch(type)
         {
-            case ToastType::INFO:
+            case Status::INFO:
                 messageColor = Color::Default;
                 break;
-            case ToastType::SUCCESS:
+            case Status::SUCCESS:
                 messageColor = Color::Green;
                 break;
-            case ToastType::ERROR:
+            case Status::FAILURE:
                 messageColor = Color::Red;
                 break;
         }
@@ -33,7 +36,7 @@ namespace projcli::Components
         });
     }
 
-    ftxui::Component ToastComponent(std::string_view message, ToastType type)
+    ftxui::Component ToastComponent(std::string_view message, Status type)
     {
         return Renderer([=] {
             return Components::Toast(message, type);

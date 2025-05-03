@@ -13,13 +13,6 @@ namespace projcli::Components
     ftxui::Component TaskCard(const Task& task);
     ftxui::Component TaskList(const std::vector<Task>& tasks);
 
-    enum class ToastType
-    {
-        INFO,
-        SUCCESS,
-        ERROR
-    };
-
-    ftxui::Element Toast(std::string_view message, ToastType type);
-    ftxui::Component ToastComponent(std::string_view message, ToastType type);
+    ftxui::Element Toast(std::string_view message, Status status);
+    ftxui::Component ToastComponent(std::string_view message, Status status);
 }

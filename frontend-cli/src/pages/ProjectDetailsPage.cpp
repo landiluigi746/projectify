@@ -20,7 +20,7 @@ namespace projcli::Pages
             Button("Back", PagesManager::NavigateTo<DashboardPage>(), ButtonOption::Animated())
         }));
 
-        Add(Components::ToastComponent("Loading tasks...", Components::ToastType::INFO));
+        Add(Components::ToastComponent("Loading tasks...", Status::INFO));
     }
 
     ftxui::Element ProjectDetailsPage::OnRender()
@@ -56,7 +56,7 @@ namespace projcli::Pages
 
         Add((result.StatusCode == Status::SUCCESS)
             ? Components::TaskList(tasks)
-            : Components::ToastComponent("Failed to load tasks", Components::ToastType::ERROR)
+            : Components::ToastComponent("Failed to load tasks", Status::FAILURE)
         );
     }
 }
