@@ -19,6 +19,7 @@ namespace projcli
         Result CreateProject(std::string_view name, std::string_view description);
 
         std::pair<Result, std::vector<Task>> GetTasks(int projectID);
+        Result ToggleTaskStatus(int projectID, int taskID);
     private:
         API();
 

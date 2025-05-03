@@ -152,4 +152,22 @@ namespace projcli
                 return std::make_pair(Result{ Status::FAILURE, res.value().body }, std::vector<Task>());
         }
     }
+
+    Result API::ToggleTaskStatus(int projectID, int taskID)
+    {
+        glz::json_t json = {{"projectID", projectID}, {"taskID", taskID}};
+        auto res = m_Client.Post("/tasks/toggleStatus", glz::write_json(json).value(), "application/json");
+
+        if(!res)
+            return Result{ Status::FAILURE, httplib::to_string(res.error()) };
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::OK_200:
+                return Result{ Status::SUCCESS, "Successfully toggled task status!" };
+
+            default:
+                return Result{ Status::FAILURE, res.value().body };
+        }
+    }
 }

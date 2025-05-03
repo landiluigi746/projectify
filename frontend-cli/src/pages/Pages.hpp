@@ -89,5 +89,6 @@ namespace projcli::Pages
         void OnEnter(const Project& project);
     private:
         Project m_Project;
+        Result m_TaskResult;
     };
 }

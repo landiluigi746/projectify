@@ -30,6 +30,7 @@ namespace projcli::Pages
             separatorEmpty(),
             ChildAt(0)->Render() | hcenter,
             separatorEmpty(),
+            Components::Toast(m_TaskResult.Message, m_TaskResult.StatusCode),
             window(
                 text("Project Details"),
                 vbox({
@@ -55,7 +56,7 @@ namespace projcli::Pages
         const auto [result, tasks] = API::GetInstance().GetTasks(project.ID);
 
         Add((result.StatusCode == Status::SUCCESS)
-            ? Components::TaskList(tasks)
+            ? Components::TaskList(tasks, m_TaskResult)
             : Components::ToastComponent("Failed to load tasks", Status::FAILURE)
         );
     }

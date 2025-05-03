@@ -10,17 +10,17 @@ using namespace ftxui;
 
 namespace projcli::Components
 {
-    Component TaskList(const std::vector<Task>& tasks)
+    Component TaskList(const std::vector<Task>& tasks, Result& resultRef)
     {
         class Impl : public ComponentBase
         {
         public:
-            Impl(const std::vector<Task>& tasks)
+            Impl(const std::vector<Task>& tasks, Result& resultRef)
             {
                 m_TasksContainer = Container::Vertical({});
 
                 for (const auto& task : tasks)
-                    m_TasksContainer->Add(TaskCard(task));
+                    m_TasksContainer->Add(TaskCard(task, resultRef));
 
                 Add(Renderer(m_TasksContainer, [&] {
                     return m_TasksContainer->Render() | vscroll_indicator | yframe;
@@ -30,6 +30,6 @@ namespace projcli::Components
             Component m_TasksContainer;
         };
 
-        return Make<Impl>(tasks);
+        return Make<Impl>(tasks, resultRef);
     }
 }
