@@ -64,6 +64,16 @@ int main()
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::ToggleTaskStatus);
 
+    CROW_ROUTE(app, "/links/register")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::RegisterLink);
+
+    CROW_ROUTE(app, "/links/get")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::GetLinks);
+
     app.port(Config::PORT).multithreaded().run();
 
     return 0;
