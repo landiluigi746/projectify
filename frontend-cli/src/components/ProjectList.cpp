@@ -18,14 +18,23 @@ namespace projcli::Components
         public:
             Impl(const std::vector<Project>& projects)
             {
-                m_ProjectsContainer = Container::Vertical({});
+                if(!projects.empty())
+                {
+                    m_ProjectsContainer = Container::Vertical({});
 
-                for(const auto& project : projects)
-                    m_ProjectsContainer->Add(ProjectCard(project));
+                    for(const auto& project : projects)
+                        m_ProjectsContainer->Add(ProjectCard(project));
 
-                Add(Renderer(m_ProjectsContainer, [&] {
-                    return m_ProjectsContainer->Render() | vscroll_indicator | yframe;
-                }));
+                    Add(Renderer(m_ProjectsContainer, [&] {
+                        return m_ProjectsContainer->Render() | vscroll_indicator | yframe;
+                    }));
+                }
+                else
+                {
+                    Add(Renderer([&] {
+                        return text("You currently have no projects") | hcenter |color(Color::Yellow) | bold;
+                    }));
+                }
             }
         private:
             ftxui::Component m_ProjectsContainer;

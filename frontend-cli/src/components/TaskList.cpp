@@ -17,14 +17,23 @@ namespace projcli::Components
         public:
             Impl(const std::vector<Task>& tasks, Result& resultRef)
             {
-                m_TasksContainer = Container::Vertical({});
+                if(!tasks.empty())
+                {
+                    m_TasksContainer = Container::Vertical({});
 
-                for (const auto& task : tasks)
-                    m_TasksContainer->Add(TaskCard(task, resultRef));
+                    for (const auto& task : tasks)
+                        m_TasksContainer->Add(TaskCard(task, resultRef));
 
-                Add(Renderer(m_TasksContainer, [&] {
-                    return m_TasksContainer->Render() | vscroll_indicator | yframe;
-                }));
+                    Add(Renderer(m_TasksContainer, [&] {
+                        return m_TasksContainer->Render() | vscroll_indicator | yframe;
+                    }));
+                }
+                else
+                {
+                    Add(Renderer([] {
+                        return text("This project has no tasks") | color(Color::Yellow) | bold;
+                    }));
+                }
             }
         private:
             Component m_TasksContainer;
