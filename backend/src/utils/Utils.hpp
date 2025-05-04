@@ -14,4 +14,6 @@ namespace projectify::Utils
     bool IsPositiveInteger(std::string_view str);
 
     std::string CreateJwt(int id);
+
+    bool IsURLValid(std::string_view url);
 }

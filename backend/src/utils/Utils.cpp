@@ -8,6 +8,7 @@
 #include <sodium/crypto_pwhash.h>
 #include <spdlog/spdlog.h>
 #include <jwt-cpp/jwt.h>
+#include <ada.h>
 
 namespace projectify::Utils
 {
@@ -72,5 +73,10 @@ namespace projectify::Utils
         return (!str.empty() && std::all_of(str.begin(), str.end(), [](char c) {
             return std::isdigit(c);
         }));
+    }
+
+    bool IsURLValid(std::string_view url)
+    {
+        return (bool) ada::parse<ada::url_aggregator>(url);
     }
 }
