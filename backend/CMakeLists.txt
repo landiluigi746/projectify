@@ -49,4 +49,9 @@ CPMAddPackage(jwt-cpp
     "JWT_BUILD_EXAMPLES Off"
 )
 
+CPMAddPackage(ada
+    VERSION 3.2.4
+    GITHUB_REPOSITORY ada-url/ada
+)
+
 add_subdirectory(src)

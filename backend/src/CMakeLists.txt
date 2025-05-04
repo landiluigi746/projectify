@@ -14,6 +14,7 @@ target_link_libraries(
     spdlog
     sodium
     jwt-cpp::jwt-cpp
+    ada::ada
 )
 
 set(OPTIONS_WARNINGS -Wall -Wpedantic)
