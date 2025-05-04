@@ -153,6 +153,24 @@ namespace projcli
         }
     }
 
+    Result API::CreateTask(int projectID, std::string_view name)
+    {
+        glz::json_t json = {{"projectID", projectID}, {"name", name}};
+        auto res = m_Client.Post("/tasks/register", glz::write_json(json).value(), "application/json");
+
+        if(!res)
+            return Result{ Status::FAILURE, httplib::to_string(res.error()) };
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::Created_201:
+                return Result{ Status::SUCCESS, "Successfully created task!" };
+
+            default:
+                return Result{ Status::FAILURE, res.value().body };
+        }
+    }
+
     Result API::ToggleTaskStatus(int projectID, int taskID)
     {
         glz::json_t json = {{"projectID", projectID}, {"taskID", taskID}};

@@ -89,4 +89,22 @@ namespace projcli::Pages
         Project m_Project;
         Result m_TaskResult;
     };
+
+    class NewTaskPage : public ftxui::ComponentBase
+    {
+    public:
+        NewTaskPage();
+        ftxui::Element OnRender() override;
+        void OnEnter(const Project& project);
+    private:
+        void DoCreateTask();
+
+        Project m_Project;
+        std::string m_TaskName;
+        Result m_Result;
+
+        ftxui::Component m_TaskNameInput;
+        ftxui::Component m_CreateButton;
+        ftxui::Component m_BackButton;
+    };
 }

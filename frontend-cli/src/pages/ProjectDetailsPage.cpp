@@ -16,7 +16,7 @@ namespace projcli::Pages
     ProjectDetailsPage::ProjectDetailsPage()
     {
         Add(Container::Horizontal({
-            Button("Add Task", []{}, ButtonOption::Animated()),
+            Button("Add Task", PagesManager::NavigateTo<NewTaskPage>(m_Project), ButtonOption::Animated()),
             Button("Back", PagesManager::NavigateTo<DashboardPage>(), ButtonOption::Animated())
         }));
 
