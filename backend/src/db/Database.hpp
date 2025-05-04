@@ -27,6 +27,7 @@ namespace projectify::Database
     bool ProjectIsPresentByName(Connection conn, int userID, std::string_view name);
     bool TaskIsPresentByID(Connection conn, int userID, int projectID, int taskID);
     bool TaskIsPresentByName(Connection conn, int userID, int projectID, std::string_view name);
+    bool LinkIsPresentByName(Connection conn, int userID, int projectID, std::string_view name);
 
     std::pair<Result, int> RegisterUser(std::string_view username, std::string_view password);
     std::pair<Result, std::optional<Models::User>> GetUserByCredentials(std::string_view username, std::string_view password);
@@ -37,4 +38,7 @@ namespace projectify::Database
     std::pair<Result, int> RegisterTask(int userID, int projectID, std::string_view name);
     std::pair<Result, std::vector<Models::Task>> GetProjectTasks(int userID, int projectID);
     Result ToggleTaskStatus(int userID, int projectID, int taskID);
+
+    std::pair<Result, int> RegisterLink(int userID, int projectID, std::string_view name, std::string_view url);
+    std::pair<Result, std::vector<Models::Link>> GetProjectLinks(int userID, int projectID);
 }
