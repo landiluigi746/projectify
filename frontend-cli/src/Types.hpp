@@ -39,4 +39,12 @@ namespace projcli
         std::string name;
         bool completed;
     };
+
+    struct Link
+    {
+        int ID;
+        int projectID;
+        std::string name;
+        std::string url;
+    };
 }

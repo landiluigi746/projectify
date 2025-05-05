@@ -21,6 +21,7 @@ namespace projcli::Pages
         }));
 
         Add(Components::ToastComponent("Loading tasks...", Status::INFO));
+        Add(Components::ToastComponent("Loading links...", Status::INFO));
     }
 
     ftxui::Element ProjectDetailsPage::OnRender()
@@ -41,8 +42,14 @@ namespace projcli::Pages
                     separatorEmpty(),
                     vbox({
                         text("Project Tasks") | bold,
-                        ChildAt(ChildCount() - 1)->Render() | size(HEIGHT, EQUAL, 20)
+                        ChildAt(ChildCount() - 2)->Render() | size(HEIGHT, EQUAL, 8)
                     }),
+
+                    separatorEmpty(),
+                    vbox({
+                        text("Project Links") | bold,
+                        ChildAt(ChildCount() - 1)->Render() | size(HEIGHT, EQUAL, 6)
+                    })
                 })
             ) | size(WIDTH, EQUAL, 80)
         }) | center;
@@ -50,14 +57,26 @@ namespace projcli::Pages
 
     void ProjectDetailsPage::OnEnter(const Project& project)
     {
-        ChildAt(ChildCount() - 1)->Detach();
         m_Project = project;
 
         const auto [result, tasks] = API::GetInstance().GetTasks(project.ID);
 
-        Add((result.StatusCode == Status::SUCCESS)
+        ChildAt(ChildCount() - 2) = (
+            (result.StatusCode == Status::SUCCESS)
             ? Components::TaskList(tasks, m_TaskResult)
             : Components::ToastComponent("Failed to load tasks", Status::FAILURE)
         );
+
+        auto makeSampleLink = [] {
+            return Link{ -1, -1, "ciao", "https://www.google.com" };
+        };
+
+        std::vector<Link> links;
+        links.reserve(12);
+
+        for(int i = 0; i < 12; i++)
+            links.emplace_back(makeSampleLink());
+
+        ChildAt(ChildCount() - 1) = (Components::LinkList(links));
     }
 }

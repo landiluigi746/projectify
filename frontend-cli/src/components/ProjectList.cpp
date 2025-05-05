@@ -32,7 +32,7 @@ namespace projcli::Components
                 else
                 {
                     Add(Renderer([&] {
-                        return text("You currently have no projects") | hcenter |color(Color::Yellow) | bold;
+                        return text("You currently have no projects") | hcenter | color(Color::Yellow) | bold;
                     }));
                 }
             }
