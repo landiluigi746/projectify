@@ -61,7 +61,6 @@ namespace projcli::Pages
         if(m_Result.StatusCode == Status::FAILURE)
             return;
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
         PagesManager::NavigateTo<DashboardPage>()();
     }
 }
