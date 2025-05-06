@@ -32,7 +32,7 @@ namespace projcli::Components
                 else
                 {
                     Add(Renderer([] {
-                        return text("This project has no links") | hcenter | color(Color::Yellow) | bold;
+                        return text("This project has no links") | color(Color::Yellow) | bold;
                     }));
                 }
             }

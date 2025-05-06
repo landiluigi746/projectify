@@ -17,6 +17,7 @@ namespace projcli::Pages
     {
         Add(Container::Horizontal({
             Button("Add Task", PagesManager::NavigateTo<NewTaskPage>(m_Project), ButtonOption::Animated()),
+            Button("Add Link", PagesManager::NavigateTo<NewLinkPage>(m_Project), ButtonOption::Animated()),
             Button("Back", PagesManager::NavigateTo<DashboardPage>(), ButtonOption::Animated())
         }));
 
@@ -31,7 +32,7 @@ namespace projcli::Pages
             separatorEmpty(),
             ChildAt(0)->Render() | hcenter,
             separatorEmpty(),
-            Components::Toast(m_TaskResult.Message, m_TaskResult.StatusCode),
+            Components::Toast(m_Result.Message, m_Result.StatusCode),
             window(
                 text("Project Details"),
                 vbox({
@@ -59,24 +60,20 @@ namespace projcli::Pages
     {
         m_Project = project;
 
-        const auto [result, tasks] = API::GetInstance().GetTasks(project.ID);
+        const auto [resultTasks, tasks] = API::GetInstance().GetTasks(project.ID);
 
         ChildAt(ChildCount() - 2) = (
-            (result.StatusCode == Status::SUCCESS)
-            ? Components::TaskList(tasks, m_TaskResult)
+            (resultTasks.StatusCode == Status::SUCCESS)
+            ? Components::TaskList(tasks, m_Result)
             : Components::ToastComponent("Failed to load tasks", Status::FAILURE)
         );
 
-        auto makeSampleLink = [] {
-            return Link{ -1, -1, "ciao", "https://www.google.com" };
-        };
+        const auto [resultLinks, links] = API::GetInstance().GetLinks(project.ID);
 
-        std::vector<Link> links;
-        links.reserve(12);
-
-        for(int i = 0; i < 12; i++)
-            links.emplace_back(makeSampleLink());
-
-        ChildAt(ChildCount() - 1) = (Components::LinkList(links));
+        ChildAt(ChildCount() - 1) = (
+            (resultLinks.StatusCode == Status::SUCCESS)
+            ? Components::LinkList(links)
+            : Components::ToastComponent("Failed to load links", Status::FAILURE)
+        );
     }
 }

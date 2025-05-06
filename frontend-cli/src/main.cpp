@@ -16,7 +16,8 @@ int main()
         DashboardPage,
         NewProjectPage,
         ProjectDetailsPage,
-        NewTaskPage
+        NewTaskPage,
+        NewLinkPage
     >();
 
     const Result result = API::GetInstance().SignInWithStoredJWT();

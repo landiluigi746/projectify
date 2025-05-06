@@ -87,7 +87,7 @@ namespace projcli::Pages
         void OnEnter(const Project& project);
     private:
         Project m_Project;
-        Result m_TaskResult;
+        Result m_Result;
     };
 
     class NewTaskPage : public ftxui::ComponentBase
@@ -104,6 +104,26 @@ namespace projcli::Pages
         Result m_Result;
 
         ftxui::Component m_TaskNameInput;
+        ftxui::Component m_CreateButton;
+        ftxui::Component m_BackButton;
+    };
+
+    class NewLinkPage : public ftxui::ComponentBase
+    {
+    public:
+        NewLinkPage();
+        ftxui::Element OnRender() override;
+        void OnEnter(const Project& project);
+    private:
+        void DoCreateLink();
+
+        Project m_Project;
+        std::string m_LinkName;
+        std::string m_LinkURL;
+        Result m_Result;
+
+        ftxui::Component m_LinkNameInput;
+        ftxui::Component m_LinkURLInput;
         ftxui::Component m_CreateButton;
         ftxui::Component m_BackButton;
     };

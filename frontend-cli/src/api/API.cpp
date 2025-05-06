@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <glaze/glaze.hpp>
+#include <glaze/json/json_t.hpp>
 #include <httplib.h>
 #include <utility>
 
@@ -113,9 +114,8 @@ namespace projcli
 
     Result API::CreateProject(std::string_view name, std::string_view description)
     {
-        Project project = { -1, std::string(name), std::string(description), -1, -1 };
-
-        auto res = m_Client.Post("/projects/register", glz::write_json(project).value(), "application/json");
+        glz::json_t json = {{"name", name}, {"description", description}};
+        auto res = m_Client.Post("/projects/register", glz::write_json(json).value(), "application/json");
 
         if(!res)
             return Result{ Status::FAILURE, httplib::to_string(res.error()) };
@@ -183,6 +183,47 @@ namespace projcli
         {
             case httplib::StatusCode::OK_200:
                 return Result{ Status::SUCCESS, "Successfully toggled task status!" };
+
+            default:
+                return Result{ Status::FAILURE, res.value().body };
+        }
+    }
+
+    std::pair<Result, std::vector<Link>> API::GetLinks(int projectID)
+    {
+        glz::json_t json = {{"projectID", projectID}};
+        auto res = m_Client.Post("/links/get", glz::write_json(json).value(), "application/json");
+
+        if(!res)
+            return std::make_pair(Result{ Status::FAILURE, httplib::to_string(res.error()) }, std::vector<Link>());
+
+        std::vector<Link> links;
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::OK_200:
+                if(glz::read_json(links, res.value().body))
+                    return std::make_pair(Result{ Status::FAILURE, "Failed to parse JSON response." }, std::vector<Link>());
+
+                return std::make_pair(Result{ Status::SUCCESS, "Successfully fetched links!" }, links);
+
+            default:
+                return std::make_pair(Result{ Status::FAILURE, res.value().body }, std::vector<Link>());
+        }
+    }
+
+    Result API::CreateLink(int projectID, std::string_view name, std::string_view url)
+    {
+        glz::json_t json = {{"projectID", projectID}, {"name", name}, {"url", url}};
+        auto res = m_Client.Post("/links/register", glz::write_json(json).value(), "application/json");
+
+        if(!res)
+            return Result{ Status::FAILURE, httplib::to_string(res.error()) };
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::Created_201:
+                return Result{ Status::SUCCESS, "Successfully created link!" };
 
             default:
                 return Result{ Status::FAILURE, res.value().body };

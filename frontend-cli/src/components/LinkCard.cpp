@@ -19,7 +19,11 @@ namespace projcli::Components
             Impl(const Link& link) :
                 m_Link(link)
             {
-                Add(Button(m_Link.name, []{}, ButtonOption::Ascii()) | hyperlink(m_Link.url));
+                Add(Button(m_Link.name, []{}, ButtonOption{
+                    .transform = [&](const EntryState& e) {
+                        return text(e.label) | hyperlink(m_Link.url) | size(WIDTH, EQUAL, m_Link.name.length() - 2);
+                    }
+                }));
             }
         private:
             Link m_Link;
