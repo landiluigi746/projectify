@@ -11,4 +11,5 @@ namespace projcli::Utils
 
     bool SaveJWT(std::string_view jwt);
     std::string LoadJWT();
+    void ClearJWT();
 }

@@ -90,6 +90,12 @@ namespace projcli
         }
     }
 
+    void API::SignOut()
+    {
+        m_Client.set_default_headers({});
+        Utils::ClearJWT();
+    }
+
     std::pair<Result, std::vector<Project>> API::GetProjects()
     {
         auto res = m_Client.Post("/projects/get");

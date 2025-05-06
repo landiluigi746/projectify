@@ -54,4 +54,9 @@ namespace projcli::Utils
 
         return jwt;
     }
+
+    void ClearJWT()
+    {
+        std::filesystem::remove(GetConfigPath() / "token.txt");
+    }
 }

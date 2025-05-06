@@ -18,6 +18,7 @@ namespace projcli::Pages
     {
         Add(Container::Horizontal({
             Button("Add Project", PagesManager::NavigateTo<NewProjectPage>(), ButtonOption::Animated()),
+            Button("Sign Out", [&](){ API::GetInstance().SignOut(); PagesManager::NavigateTo<HomePage>()(); }, ButtonOption::Animated()),
             Button("Exit", PagesManager::ExitClosure(),  ButtonOption::Animated()),
         }));
 
