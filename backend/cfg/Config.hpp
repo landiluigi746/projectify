@@ -14,9 +14,10 @@ namespace projectify::Config
     inline const std::string DB_PASSWORD = Utils::GetEnv("POSTGRES_PASSWORD", "password");
     inline const auto DB_PORT = std::stoi(Utils::GetEnv("POSTGRES_PORT", "5432"));
     inline const std::string DB_HOST = Utils::GetEnv("POSTGRES_HOST", "localhost");
+    inline const std::string DB_SSL = Utils::GetEnv("POSTGRES_SSL", "disable");
 
     inline const std::string DB_CONNECTION_STRING =
-        std::format("dbname={} user={} password={} host={} port={}", DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT);
+        std::format("dbname={} user={} password={} host={} port={} sslmode={}", DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_SSL);
 
     inline const auto REQUESTS_PER_MINUTE = std::stoi(Utils::GetEnv("REQUESTS_PER_MINUTE", "15"));
     inline const auto TIME_WINDOW = std::chrono::minutes(1);
