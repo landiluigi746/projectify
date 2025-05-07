@@ -11,7 +11,7 @@
 namespace projcli
 {
     API::API() :
-        m_Client("localhost", 8000)
+        m_Client(Utils::GetEnv("PROJECTIFY_BACKEND_URL", "https://projectify-y4so.onrender.com"))
     {
         m_Client.set_keep_alive(true);
     }
