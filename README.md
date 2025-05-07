@@ -39,13 +39,15 @@ Both backend and frontend-cli use CMake as build system.
 
 To get started with projectify, follow these steps:
 
-1. 📥 Clone the repository and navigate to the project directory:
+📥 Clone the repository and navigate to the project directory:
 ```bash
 git clone https://github.com/landiluigi746/projectify.git
 cd projectify
 ```
 
-2. ⚙️ Create a ```.env``` file with the variables required for the project:
+- **Backend and database setup** (skip this part if you don't want to run them yourself):
+
+1. ⚙️ Create a ```.env``` file with the variables required for the project:
 ```bash
 # Backend config
 PORT=8080
@@ -62,17 +64,31 @@ POSTGRES_HOST=projectify-db
 POSTGRES_PORT=5432
 ```
 
-3. 🏗️ Build and start the Docker containers:
+2. 🏗️ Build and start the Docker containers:
 ```bash
 docker compose up --build -d
 ```
 
-4. 🖥️ Compile and run the cli frontend:
+3. ⚙ Set an system env variable with your backend URL
+
+Bash:
+```bash
+export PROJECTIFY_BACKEND_URL=localhost:8000
+```
+
+Windows CMD:
+```cmd
+set PROJECTIFY_BACKEND_URL=localhost:8000
+```
+
+- **Frontend-cli setup**:
+
+🖥️ Compile and run the cli frontend:
 ```bash
 cd frontend-cli
 # if you want to build in a different build type, change this value
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-# if you want, you can use a parallel build 
+# if you want, you can use a parallel build
 # and specify the number of jobs to run in parallel
 cmake --build build --target projectify-cli --parallel 4
 ./bin/projectify-cli
