@@ -2,6 +2,7 @@
 #include "app/PagesManager.hpp"
 #include "pages/Pages.hpp"
 #include "components/Components.hpp"
+#include "api/API.hpp"
 
 #include <cmath>
 #include <ftxui/component/component.hpp>
@@ -21,11 +22,22 @@ namespace projcli::Components
             Impl(const Project& project) :
                 m_Project(project)
             {
-                Add(ftxui::Button(
-                    "See Details",
-                    PagesManager::NavigateTo<Pages::ProjectDetailsPage>(m_Project),
-                    ButtonOption::Animated()
-                ));
+                Add(Container::Horizontal({
+                    Button(
+                        "See Details",
+                        PagesManager::NavigateTo<Pages::ProjectDetailsPage>(m_Project),
+                        ButtonOption::Animated()
+                    ),
+
+                    Button(
+                        "Delete",
+                        [&] {
+                            API::GetInstance().DeleteProject(m_Project.ID);
+                            PagesManager::NavigateTo<Pages::DashboardPage>()();
+                        },
+                        ButtonOption::Animated()
+                    )
+                }));
             }
 
             Element OnRender() override
