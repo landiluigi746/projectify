@@ -85,6 +85,11 @@ int main()
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::GetLinks);
 
+    CROW_ROUTE(app, "/links/delete")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::DeleteLink);
+
     app.port(Config::PORT).multithreaded().run();
 
     return 0;

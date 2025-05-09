@@ -92,12 +92,12 @@ namespace projectify::Database
             const auto res = tr->execute("delete_task", taskID);
             tr->commit();
 
-            spdlog::debug("Database::DeleteProject() : Deleted project with ID {} by user with ID {}", projectID, userID);
+            spdlog::debug("Database::DeleteTask() : Deleted task with ID {} by user with ID {}", projectID, userID);
             return Result::SUCCESS;
         }
         catch(const std::exception& e)
         {
-            spdlog::error("Database::GetUserProjects() : {}", e.what());
+            spdlog::error("Database::DeleteTask() : {}", e.what());
             return Result::FAILED;
         }
     }

@@ -67,6 +67,15 @@ namespace projectify::Database
                     AND prj.creatorID = $1
                 )");
 
+                conn->prepare("check_link_exists_id", R"(
+                    SELECT 1
+                    FROM projects_links link
+                    JOIN projects prj ON link.projectID = prj.ID
+                    WHERE link.ID = $3
+                    AND prj.ID = $2
+                    AND prj.creatorID = $1
+                )");
+
                 conn->prepare("register_user", R"(
                     INSERT INTO users (username, passwordHash)
                     VALUES ($1, $2)
@@ -146,6 +155,12 @@ namespace projectify::Database
                     AND prj.creatorID = $1
                 )");
 
+                conn->prepare("delete_link", R"(
+                    DELETE
+                    FROM projects_links
+                    WHERE ID = $1
+                )");
+
                 s_InitResult = Result::SUCCESS;
             }
             catch(const std::exception& e)
@@ -186,5 +201,10 @@ namespace projectify::Database
     bool LinkIsPresentByName(Connection conn, int userID, int projectID, std::string_view name)
     {
         return !conn->execute("check_link_exists_name", userID, projectID, name).empty();
+    }
+
+    bool LinkIsPresentByID(Connection conn, int userID, int projectID, int linkID)
+    {
+        return !conn->execute("check_link_exists_id", userID, projectID, linkID).empty();
     }
 }

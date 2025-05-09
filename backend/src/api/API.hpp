@@ -18,4 +18,5 @@ namespace projectify::API
 
     void RegisterLink(const crow::request& req, crow::response& res);
     void GetLinks(const crow::request& req, crow::response& res);
+    void DeleteLink(const crow::request& req, crow::response& res);
 }

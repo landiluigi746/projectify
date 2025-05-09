@@ -87,7 +87,7 @@ namespace projectify::Database
         }
         catch(const std::exception& e)
         {
-            spdlog::error("Database::GetUserProjects() : {}", e.what());
+            spdlog::error("Database::DeleteProject() : {}", e.what());
             return Result::FAILED;
         }
     }

@@ -29,6 +29,8 @@ links = [
     make_link("This should not be here (invalid URL)", "bruh this is invalid", 2)
 ]
 
+fetched_links = {}
+
 def do_login(user):
     s = requests.Session()
     res = s.post(BACKEND_URL + '/users/login', json=user)
@@ -58,12 +60,33 @@ def get_test(user):
         if not res.ok:
             print(f"Failed to fetch links for project ID {projectID}")
         else:
+            fetched_links[user["username"]] = res.json()
             print(f"Links: {res.json()}")
 
-reg_test(registered_user)
-time.sleep(4)
-reg_test(unregistered_user)
+def del_test(user):
+    if not fetched_links[user["username"]]:
+        pass
+
+    s = do_login(user)
+
+    for link in fetched_links[user["username"]]:
+        res = s.post(BACKEND_URL + '/links/delete', json={
+            'linkID': link["ID"],
+            'projectID': link["projectID"]
+        })
+
+        if not res.ok:
+            print(f"Link deletion failed")
+        else:
+            print(f"Link deleted successfully")
+
+# reg_test(registered_user)
+# time.sleep(4)
+# reg_test(unregistered_user)
+# time.sleep(4)
+get_test(registered_user)
+# time.sleep(4)
+# get_test(unregistered_user)
+del_test(registered_user)
 time.sleep(4)
 get_test(registered_user)
-time.sleep(4)
-get_test(unregistered_user)

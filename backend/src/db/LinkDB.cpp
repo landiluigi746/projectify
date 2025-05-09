@@ -59,4 +59,27 @@ namespace projectify::Database
             return std::make_pair(Result::FAILED, std::vector<Models::Link>());
         }
     }
+
+    Result DeleteLink(int userID, int projectID, int linkID)
+    {
+        try
+        {
+            const auto conn = GetConnectionPool()->connection();
+
+            if(!LinkIsPresentByID(conn, userID, projectID, linkID))
+                return Result::NOT_FOUND;
+
+            const auto tr = conn->transaction();
+            const auto res = tr->execute("delete_link", linkID);
+            tr->commit();
+
+            spdlog::debug("Database::DeleteLink() : Deleted link with ID {} by user with ID {}", projectID, userID);
+            return Result::SUCCESS;
+        }
+        catch(const std::exception& e)
+        {
+            spdlog::error("Database::DeleteLink() : {}", e.what());
+            return Result::FAILED;
+        }
+    }
 }
