@@ -70,6 +70,11 @@ int main()
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::ToggleTaskStatus);
 
+    CROW_ROUTE(app, "/tasks/delete")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::DeleteTask);
+
     CROW_ROUTE(app, "/links/register")
         .methods("POST"_method)
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)

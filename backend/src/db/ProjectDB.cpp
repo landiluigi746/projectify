@@ -79,7 +79,7 @@ namespace projectify::Database
                 return Result::NOT_FOUND;
 
             const auto tr = conn->transaction();
-            const auto res = tr->execute("delete_project", projectID, userID);
+            const auto res = tr->execute("delete_project", projectID);
             tr->commit();
 
             spdlog::debug("Database::DeleteProject() : Deleted project with ID {} by user with ID {}", projectID, userID);

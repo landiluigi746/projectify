@@ -74,7 +74,7 @@ def del_test(user):
 
     for project in fetched_prjs[user["username"]]:
         res = s.post(BACKEND_URL + "/projects/delete", json={
-            "ID": project["ID"]
+            "projectID": project["ID"]
         })
 
         if not res.ok:
@@ -82,13 +82,13 @@ def del_test(user):
         else:
             print("Project deleted successfully")
 
-# reg_test(registered_user)
+reg_test(registered_user)
 # time.sleep(4)
 # # reg_test(unregistered_user)
 # # time.sleep(4)
 get_test(registered_user)
 time.sleep(4)
 # get_test(unregistered_user)
-del_test(registered_user)
+# del_test(registered_user)
 time.sleep(4)
 get_test(registered_user)

@@ -15,7 +15,7 @@ namespace projectify::Database
 
             if(TaskIsPresentByName(conn, userID, projectID, name))
                 return std::make_pair(Result::ALREADY_PRESENT, -1);
-            
+
             const auto tr = conn->transaction();
 
             const auto res = tr->execute("register_task", projectID, name);
@@ -75,6 +75,29 @@ namespace projectify::Database
         catch(const std::exception& e)
         {
             spdlog::error("Database::ToggleTaskStatus(): {}", e.what());
+            return Result::FAILED;
+        }
+    }
+
+    Result DeleteTask(int userID, int projectID, int taskID)
+    {
+        try
+        {
+            const auto conn = GetConnectionPool()->connection();
+
+            if(!TaskIsPresentByID(conn, userID, projectID, taskID))
+                return Result::NOT_FOUND;
+
+            const auto tr = conn->transaction();
+            const auto res = tr->execute("delete_task", taskID);
+            tr->commit();
+
+            spdlog::debug("Database::DeleteProject() : Deleted project with ID {} by user with ID {}", projectID, userID);
+            return Result::SUCCESS;
+        }
+        catch(const std::exception& e)
+        {
+            spdlog::error("Database::GetUserProjects() : {}", e.what());
             return Result::FAILED;
         }
     }

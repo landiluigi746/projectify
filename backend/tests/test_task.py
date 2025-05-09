@@ -30,6 +30,8 @@ tasks = [
     make_task("This should not be here", 999)
 ]
 
+fetched_tasks = {}
+
 def do_login(user):
     s = requests.Session()
     res = s.post(BACKEND_URL + '/users/login', json=user)
@@ -60,6 +62,7 @@ def get_test(user):
             print(f"Failed to fetch tasks for project ID {projectID}")
         else:
             json = res.json()
+            fetched_tasks[user["username"]] = json
 
             for item in json:
                 payload = {
@@ -82,14 +85,33 @@ def toggle_test(user):
         else:
             print(f"Task toggle status successful")
 
+def del_test(user):
+    if not fetched_tasks[user["username"]]:
+        pass
+
+    s = do_login(user)
+
+    for task in fetched_tasks[user["username"]]:
+        res = s.post(BACKEND_URL + '/tasks/delete', json={
+            'taskID': task["ID"],
+            'projectID': task["projectID"]
+        })
+
+        if not res.ok:
+            print(f"Task deletion failed")
+        else:
+            print(f"Task deleted successfully")
+
+
 # reg_test(registered_user)
-# time.sleep(4)
-# reg_test(unregistered_user)
+# # time.sleep(4)
+# # reg_test(unregistered_user)
 # time.sleep(4)
 get_test(registered_user)
-time.sleep(4)
+# time.sleep(4)
 # get_test(unregistered_user)
 # time.sleep(4)
-toggle_test(registered_user)
+# toggle_test(registered_user)
+del_test(registered_user)
 time.sleep(4)
 get_test(registered_user)

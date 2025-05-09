@@ -14,6 +14,7 @@ namespace projectify::API
     void RegisterTask(const crow::request& req, crow::response& res);
     void GetTasks(const crow::request& req, crow::response& res);
     void ToggleTaskStatus(const crow::request& req, crow::response& res);
+    void DeleteTask(const crow::request& req, crow::response& res);
 
     void RegisterLink(const crow::request& req, crow::response& res);
     void GetLinks(const crow::request& req, crow::response& res);

@@ -96,7 +96,7 @@ namespace projectify::Database
                 conn->prepare("delete_project", R"(
                     DELETE
                     FROM projects
-                    WHERE ID = $1 AND creatorID = $2
+                    WHERE ID = $1
                 )");
 
                 conn->prepare("register_task", R"(
@@ -124,6 +124,12 @@ namespace projectify::Database
                     SET completed = NOT completed
                     WHERE ID = $1
                     RETURNING id
+                )");
+
+                conn->prepare("delete_task", R"(
+                    DELETE
+                    FROM projects_tasks
+                    WHERE ID = $1
                 )");
 
                 conn->prepare("register_link", R"(
