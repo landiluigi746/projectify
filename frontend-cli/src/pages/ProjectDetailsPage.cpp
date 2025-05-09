@@ -72,7 +72,7 @@ namespace projcli::Pages
 
         ChildAt(ChildCount() - 1) = (
             (resultLinks.StatusCode == Status::SUCCESS)
-            ? Components::LinkList(links)
+            ? Components::LinkList(links, m_Project.ID, m_Result)
             : Components::ToastComponent("Failed to load links", Status::FAILURE)
         );
     }

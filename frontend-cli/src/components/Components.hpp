@@ -13,8 +13,8 @@ namespace projcli::Components
     ftxui::Component TaskCard(const Task& task, int projectID, Result& resultRef);
     ftxui::Component TaskList(const std::vector<Task>& tasks, int projectID, Result& resultRef);
 
-    ftxui::Component LinkCard(const Link& link);
-    ftxui::Component LinkList(const std::vector<Link>& link);
+    ftxui::Component LinkCard(const Link& link, int projectID, Result& resultRef);
+    ftxui::Component LinkList(const std::vector<Link>& link, int projectID, Result& resultRef);
 
     ftxui::Element Toast(std::string_view message, Status status);
     ftxui::Component ToastComponent(std::string_view message, Status status);

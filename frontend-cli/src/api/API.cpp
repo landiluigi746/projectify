@@ -271,4 +271,22 @@ namespace projcli
                 return Result{ Status::FAILURE, res.value().body };
         }
     }
+
+    Result API::DeleteLink(int projectID, int linkID)
+    {
+        glz::json_t json = {{"projectID", projectID}, {"linkID", linkID}};
+        auto res = m_Client.Post("/links/delete", glz::write_json(json).value(), "application/json");
+
+        if(!res)
+            return Result{ Status::FAILURE, httplib::to_string(res.error()) };
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::OK_200:
+                return Result{ Status::SUCCESS, "Successfully deleted link!" };
+
+            default:
+                return Result{ Status::FAILURE, res.value().body };
+        }
+    }
 }

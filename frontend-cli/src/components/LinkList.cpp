@@ -11,19 +11,19 @@ using namespace ftxui;
 
 namespace projcli::Components
 {
-    Component LinkList(const std::vector<Link>& links)
+    Component LinkList(const std::vector<Link>& links, int projectID, Result& resultRef)
     {
         class Impl : public ComponentBase
         {
         public:
-            Impl(const std::vector<Link>& links)
+            Impl(const std::vector<Link>& links, int projectID, Result& resultRef)
             {
                 if(!links.empty())
                 {
                     m_LinksContainer = Container::Vertical({});
 
                     for(const auto& link: links)
-                        m_LinksContainer->Add(LinkCard(link));
+                        m_LinksContainer->Add(LinkCard(link, projectID, resultRef));
 
                     Add(Renderer(m_LinksContainer, [&] {
                         return m_LinksContainer->Render() | vscroll_indicator | yframe;
@@ -40,6 +40,6 @@ namespace projcli::Components
             Component m_LinksContainer;
         };
 
-        return Make<Impl>(links);
+        return Make<Impl>(links, projectID, resultRef);
     }
 }

@@ -27,6 +27,7 @@ namespace projcli
 
         std::pair<Result, std::vector<Link>> GetLinks(int projectID);
         Result CreateLink(int projectID, std::string_view name, std::string_view url);
+        Result DeleteLink(int projectID, int linkID);
     private:
         API();
 
