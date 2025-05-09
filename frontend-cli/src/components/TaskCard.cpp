@@ -12,22 +12,36 @@ using namespace ftxui;
 
 namespace projcli::Components
 {
-    Component TaskCard(const Task& task, Result& resultRef)
+    Component TaskCard(const Task& task, int projectID, Result& resultRef)
     {
         class Impl : public ComponentBase
         {
         public:
-            Impl(const Task& task, Result& resultRef) :
+            Impl(const Task& task, int projectID, Result& resultRef) :
+                m_ProjectID(projectID),
                 m_Task(task),
                 m_ResultRef(resultRef)
             {
-                Add(Checkbox(task.name, &m_Task.completed,
-                    CheckboxOption{
-                        .on_change = [&] {
-                            DoToggleStatus();
+                Add(Container::Horizontal({
+                    Checkbox(task.name, &m_Task.completed,
+                        CheckboxOption{
+                            .on_change = [&] {
+                                DoToggleStatus();
+                            }
                         }
-                    }
-                ));
+                    ) | Renderer([](Element inner) {
+                        return inner | flex;
+                    }),
+
+                    Button(
+                        "Delete",
+                        [&] {
+                            m_ResultRef = API::GetInstance().DeleteTask(m_ProjectID, m_Task.ID);
+                            Detach();
+                        },
+                        ButtonOption::Ascii()
+                    )
+                }));
             }
 
             Element OnRender() override
@@ -46,10 +60,11 @@ namespace projcli::Components
                 m_ResultRef = result;
             }
 
+            int m_ProjectID;
             Task m_Task;
             Result& m_ResultRef;
         };
 
-        return Make<Impl>(task, resultRef);
+        return Make<Impl>(task, projectID, resultRef);
     }
 }

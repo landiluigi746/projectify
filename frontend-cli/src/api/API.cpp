@@ -213,6 +213,24 @@ namespace projcli
         }
     }
 
+    Result API::DeleteTask(int projectID, int taskID)
+    {
+        glz::json_t json = {{"projectID", projectID}, {"taskID", taskID}};
+        auto res = m_Client.Post("/tasks/delete", glz::write_json(json).value(), "application/json");
+
+        if(!res)
+            return Result{ Status::FAILURE, httplib::to_string(res.error()) };
+
+        switch(res.value().status)
+        {
+            case httplib::StatusCode::OK_200:
+                return Result{ Status::SUCCESS, "Successfully deleted task!" };
+
+            default:
+                return Result{ Status::FAILURE, res.value().body };
+        }
+    }
+
     std::pair<Result, std::vector<Link>> API::GetLinks(int projectID)
     {
         glz::json_t json = {{"projectID", projectID}};

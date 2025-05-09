@@ -23,6 +23,7 @@ namespace projcli
         std::pair<Result, std::vector<Task>> GetTasks(int projectID);
         Result CreateTask(int projectID, std::string_view name);
         Result ToggleTaskStatus(int projectID, int taskID);
+        Result DeleteTask(int projectID, int taskID);
 
         std::pair<Result, std::vector<Link>> GetLinks(int projectID);
         Result CreateLink(int projectID, std::string_view name, std::string_view url);

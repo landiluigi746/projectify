@@ -33,7 +33,7 @@ namespace projcli::Components
                         "Delete",
                         [&] {
                             API::GetInstance().DeleteProject(m_Project.ID);
-                            PagesManager::NavigateTo<Pages::DashboardPage>()();
+                            Detach();
                         },
                         ButtonOption::Animated()
                     )

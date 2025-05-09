@@ -64,7 +64,7 @@ namespace projcli::Pages
 
         ChildAt(ChildCount() - 2) = (
             (resultTasks.StatusCode == Status::SUCCESS)
-            ? Components::TaskList(tasks, m_Result)
+            ? Components::TaskList(tasks, m_Project.ID, m_Result)
             : Components::ToastComponent("Failed to load tasks", Status::FAILURE)
         );
 

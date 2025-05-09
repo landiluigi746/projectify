@@ -10,8 +10,8 @@ namespace projcli::Components
     ftxui::Component ProjectCard(const Project& project);
     ftxui::Component ProjectList(const std::vector<Project>& projects);
 
-    ftxui::Component TaskCard(const Task& task, Result& resultRef);
-    ftxui::Component TaskList(const std::vector<Task>& tasks, Result& resultRef);
+    ftxui::Component TaskCard(const Task& task, int projectID, Result& resultRef);
+    ftxui::Component TaskList(const std::vector<Task>& tasks, int projectID, Result& resultRef);
 
     ftxui::Component LinkCard(const Link& link);
     ftxui::Component LinkList(const std::vector<Link>& link);
