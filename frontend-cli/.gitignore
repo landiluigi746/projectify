@@ -3,3 +3,7 @@ build/
 lib/
 vendor/
 .cache/
+out/
+.vs/
+.vscode/
+CMakeSettings.json
