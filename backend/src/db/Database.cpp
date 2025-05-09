@@ -93,6 +93,12 @@ namespace projectify::Database
                     WHERE creatorID = $1
                 )");
 
+                conn->prepare("delete_project", R"(
+                    DELETE
+                    FROM projects
+                    WHERE ID = $1 AND creatorID = $2
+                )");
+
                 conn->prepare("register_task", R"(
                     INSERT INTO projects_tasks (projectID, name, completed)
                     VALUES ($1, $2, FALSE)

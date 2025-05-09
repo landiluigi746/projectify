@@ -22,6 +22,7 @@ unregistered_user = make_user('whotfami12', 'mystupidAsspw*2')
 projects = [
     make_project('Lavoro TPS', 'Lavoro di gruppo di TPS su Thread e Semafori in C'),
     make_project('BigCaos', 'The first 10th gen videogame, an open-world fps-rpg made with Unreal Engine 6!!! KEEP VERY SECRET!!!'),
+    make_project('Project to delete', 'just a test project to delete'),
     make_project('Invalid desc', 'a' * 1024), # description too large
     make_project('Invalid desc2', ''),
 ]
@@ -31,6 +32,8 @@ projects += [
         f'My big project {i}',
         "A project that is very big. It has a lot of features and is designed to be scalable. It is built using modern technologies and follows best practices. It is designed to be scalable and maintainable, with a focus on performance and security."
     ) for i in range(1, 4)]
+
+fetched_prjs = {}
 
 def do_login(user):
     s = requests.Session()
@@ -60,13 +63,32 @@ def get_test(user):
     if not res.ok:
         print(f"Failed to fetch projects")
     else:
+        fetched_prjs[user["username"]] = res.json()
         print(f"Projects: {res.json()}")
 
+def del_test(user):
+    if not fetched_prjs[user["username"]]:
+        pass
 
-reg_test(registered_user)
-time.sleep(4)
-# reg_test(unregistered_user)
+    s = do_login(user)
+
+    for project in fetched_prjs[user["username"]]:
+        res = s.post(BACKEND_URL + "/projects/delete", json={
+            "ID": project["ID"]
+        })
+
+        if not res.ok:
+            print(f"Failed to delete project")
+        else:
+            print("Project deleted successfully")
+
+# reg_test(registered_user)
 # time.sleep(4)
+# # reg_test(unregistered_user)
+# # time.sleep(4)
 get_test(registered_user)
-# time.sleep(4)
+time.sleep(4)
 # get_test(unregistered_user)
+del_test(registered_user)
+time.sleep(4)
+get_test(registered_user)

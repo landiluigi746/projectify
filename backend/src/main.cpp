@@ -2,6 +2,7 @@
 #include "cfg/Config.hpp"
 #include "db/Database.hpp"
 #include "logger/Logger.hpp"
+#include "middleware/JwtValidator.hpp"
 #include "middleware/Middlewares.hpp"
 
 #include <crow/app.h>
@@ -48,6 +49,11 @@ int main()
         .methods("POST"_method)
         .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
         (&API::GetProjects);
+
+    CROW_ROUTE(app, "/projects/delete")
+        .methods("POST"_method)
+        .CROW_MIDDLEWARES(app, Middleware::JwtValidator)
+        (&API::DeleteProject);
 
     CROW_ROUTE(app, "/tasks/register")
         .methods("POST"_method)

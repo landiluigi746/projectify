@@ -68,4 +68,27 @@ namespace projectify::Database
             return std::make_pair(Result::FAILED, std::vector<Models::Project>());
         }
     }
+
+    Result DeleteProject(int userID, int projectID)
+    {
+        try
+        {
+            const auto conn = GetConnectionPool()->connection();
+
+            if(!ProjectIsPresentByID(conn, projectID, userID))
+                return Result::NOT_FOUND;
+
+            const auto tr = conn->transaction();
+            const auto res = tr->execute("delete_project", projectID, userID);
+            tr->commit();
+
+            spdlog::debug("Database::DeleteProject() : Deleted project with ID {} by user with ID {}", projectID, userID);
+            return Result::SUCCESS;
+        }
+        catch(const std::exception& e)
+        {
+            spdlog::error("Database::GetUserProjects() : {}", e.what());
+            return Result::FAILED;
+        }
+    }
 }

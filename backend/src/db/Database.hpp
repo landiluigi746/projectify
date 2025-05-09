@@ -34,6 +34,7 @@ namespace projectify::Database
 
     std::pair<Result, int> RegisterProject(int userID, std::string_view name, std::string_view description);
     std::pair<Result, std::vector<Models::Project>> GetUserProjects(int userID);
+    Result DeleteProject(int userID, int projectID);
 
     std::pair<Result, int> RegisterTask(int userID, int projectID, std::string_view name);
     std::pair<Result, std::vector<Models::Task>> GetProjectTasks(int userID, int projectID);
