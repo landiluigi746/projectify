@@ -32,7 +32,11 @@ namespace projcli::Components
                     Button(
                         "Delete",
                         [&] {
-                            API::GetInstance().DeleteProject(m_Project.ID);
+                            const Result result = API::GetInstance().DeleteProject(m_Project.ID);
+
+                            if(result.StatusCode == Status::FAILURE)
+                                return;
+
                             Detach();
                         },
                         ButtonOption::Animated()

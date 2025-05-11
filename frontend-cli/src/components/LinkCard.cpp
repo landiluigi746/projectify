@@ -35,6 +35,10 @@ namespace projcli::Components
                         "Delete",
                         [&] {
                             m_ResultRef = API::GetInstance().DeleteLink(m_ProjectID, m_Link.ID);
+
+                            if(m_ResultRef.StatusCode == Status::FAILURE)
+                                return;
+
                             Detach();
                         },
                         ButtonOption::Ascii()

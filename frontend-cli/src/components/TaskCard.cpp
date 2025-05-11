@@ -37,6 +37,10 @@ namespace projcli::Components
                         "Delete",
                         [&] {
                             m_ResultRef = API::GetInstance().DeleteTask(m_ProjectID, m_Task.ID);
+
+                            if(m_ResultRef.StatusCode == Status::FAILURE)
+                                return;
+
                             Detach();
                         },
                         ButtonOption::Ascii()
