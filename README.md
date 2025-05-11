@@ -85,7 +85,8 @@ set PROJECTIFY_BACKEND_URL=localhost:8000
 
 🖥️ Compile and run the cli frontend:
 
-**Windows**
+**Windows**:
+
 It's highly recommended to use Visual Studio 2022. Open the frontend-cli folder directly in VS, let it generate CMake files and then compile the app.
 
 **Linux**:
