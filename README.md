@@ -18,13 +18,26 @@
 
 > Your go-to solution for managing projects efficiently. Organize projects smarter, achieve results faster.
 
+## Index
+
+1. [Overview](#overview)
+2. [Project Architecture](#project-architecture)
+3. [Getting started](#getting-started)
+   
+   - [Backend and database setup](#backend-and-database-setup)
+   - [Frontend-cli setup](#frontend-cli-setup)
+  
+4. [Some screenshots](#some-screenshots)
+
+## Overview
+
 🚀 **projectify** is a simple and intuitive project management tool that helps you organize your work efficiently.
 
 ✅ Create projects, add tasks, and attach relevant links—all in one streamlined space.
 
 📈 Stay on top of your workflow, track progress effortlessly, and bring your ideas to life with speed and precision.
 
-## 🏗️ About the project
+## Project Architecture
 
 projectify is composed of three big parts:
 
@@ -38,7 +51,7 @@ The database and the backend run on top of Docker containers based on PostgreSQL
 
 Both backend and frontend-cli use CMake as build system.
 
-## 🚀 Getting started
+## Getting started
 
 To get started with projectify, follow these steps:
 
@@ -48,7 +61,9 @@ git clone https://github.com/landiluigi746/projectify.git
 cd projectify
 ```
 
-- **Backend and database setup** (skip this part if you don't want to run them yourself):
+### Backend and database setup
+
+**Skip this part if you don't want to run them yourself**
 
 1. ⚙️ Create a ```.env``` file with the variables required for the project:
 ```bash
@@ -84,7 +99,7 @@ Windows CMD:
 set PROJECTIFY_BACKEND_URL=localhost:8000
 ```
 
-- **Frontend-cli setup**:
+### Frontend-cli setup
 
 🖥️ Compile and run the cli frontend:
 
@@ -102,3 +117,6 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --target projectify-cli --parallel 4
 ./bin/projectify-cli
 ```
+
+## Some screenshots
+TODO: Add screenshots here
