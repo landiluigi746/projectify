@@ -2,6 +2,9 @@
 
 ![🛠 Tech Stack](https://go-skill-icons.vercel.app/api/icons?i=cpp,cmake,postgresql,docker)
 
+> [!IMPORTANT]
+> The project is still in its early stages of development and many features are missing. Stay tuned for updates!
+
 <pre>
                     _              _    _   __
                    (_)            | |  (_) / _|
@@ -15,7 +18,7 @@
 
 > Your go-to solution for managing projects efficiently. Organize projects smarter, achieve results faster.
 
-🚀 **projectify** is a smart and intuitive project management tool that helps you organize your work efficiently.
+🚀 **projectify** is a simple and intuitive project management tool that helps you organize your work efficiently.
 
 ✅ Create projects, add tasks, and attach relevant links—all in one streamlined space.
 
@@ -27,7 +30,7 @@ projectify is composed of three big parts:
 
 - Database: PostgreSQL for storing project data and user information.
 - Backend: a RESTful API server written in C++ that interacts with the database and manages project logic. Uses [Crow](https://github.com/CrowCpp/Crow) as web framework and [taopq](https://github.com/taocpp/taopq) for database operations.
-- Frontend-cli: written in C++ with [FTXUI](https://github.com/ArthurSonzogni/FTXUI) in order to create an intuitive user interface on the command line. Uses [glaze](https://github.com/stephenberry/glaze) to handle JSON data and [cpp-httplib](https://github.com/yhirose/cpp-httplib) for HTTP requests.
+- Frontend-cli: a terminal application written in C++ with [FTXUI](https://github.com/ArthurSonzogni/FTXUI) in order to create an intuitive user interface on the command line. Uses [glaze](https://github.com/stephenberry/glaze) to handle JSON data and [cpp-httplib](https://github.com/yhirose/cpp-httplib) for HTTP requests.
 
 **🌐 A web-based frontend is on the schedule. Stay tuned for updates!**
 
