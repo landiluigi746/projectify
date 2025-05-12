@@ -23,10 +23,10 @@
 1. [Overview](#overview)
 2. [Project Architecture](#project-architecture)
 3. [Getting started](#getting-started)
-   
+
    - [Backend and database setup](#backend-and-database-setup)
    - [Frontend-cli setup](#frontend-cli-setup)
-  
+
 4. [Some screenshots](#some-screenshots)
 
 ## Overview
@@ -50,6 +50,8 @@ projectify is composed of three big parts:
 The database and the backend run on top of Docker containers based on PostgreSQL official image for the database and a lightweight Alpine image for the backend, ensuring a consistent and reproducible environment.
 
 Both backend and frontend-cli use CMake as build system.
+
+![architecture-schema](screenshots/architecture-schema.png)
 
 ## Getting started
 
@@ -119,4 +121,5 @@ cmake --build build --target projectify-cli --parallel 4
 ```
 
 ## Some screenshots
-TODO: Add screenshots here
+| ![frontend-cli1](screenshots/frontend-cli1.png) | ![frontend-cli2](screenshots/frontend-cli2.png) |
+|-|-|
