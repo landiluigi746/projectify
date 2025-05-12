@@ -63,4 +63,10 @@ namespace projcli::Pages
 
         PagesManager::NavigateTo<DashboardPage>()();
     }
+
+    void NewProjectPage::OnEnter()
+    {
+        m_ProjectName.clear();
+        m_ProjectDescription.clear();
+    }
 }

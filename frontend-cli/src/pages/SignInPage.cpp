@@ -66,4 +66,9 @@ namespace projcli::Pages
         PagesManager::NavigateTo<DashboardPage>()();
     }
 
+    void SignInPage::OnEnter()
+    {
+        m_Credentials.username.clear();
+        m_Credentials.password.clear();
+    }
 }

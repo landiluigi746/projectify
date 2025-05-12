@@ -67,5 +67,7 @@ namespace projcli::Pages
     void NewLinkPage::OnEnter(const Project& project)
     {
         m_Project = project;
+        m_LinkName.clear();
+        m_LinkURL.clear();
     }
 }

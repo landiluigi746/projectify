@@ -28,6 +28,7 @@ int main()
         PagesManager::NavigateTo<DashboardPage>()();
     else
     {
+        PagesManager::NavigateTo<HomePage>()();
         std::println("Failed. Redirecting to HomePage");
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }

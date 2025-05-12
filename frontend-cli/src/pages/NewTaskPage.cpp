@@ -64,5 +64,6 @@ namespace projcli::Pages
     void NewTaskPage::OnEnter(const Project& project)
     {
         m_Project = project;
+        m_TaskName.clear();
     }
 }

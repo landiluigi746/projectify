@@ -21,5 +21,6 @@ namespace projcli
     void PagesManager::MainLoop()
     {
         m_Screen.Loop(m_Pages);
+        m_Screen.Exit();
     }
 }

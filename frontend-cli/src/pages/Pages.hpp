@@ -22,6 +22,7 @@ namespace projcli::Pages
     public:
         SignUpPage();
         ftxui::Element OnRender() override;
+        void OnEnter();
     private:
         void DoSignUp();
 
@@ -40,6 +41,7 @@ namespace projcli::Pages
     public:
         SignInPage();
         ftxui::Element OnRender() override;
+        void OnEnter();
     private:
         void DoSignIn();
 
@@ -66,6 +68,7 @@ namespace projcli::Pages
     public:
         NewProjectPage();
         ftxui::Element OnRender() override;
+        void OnEnter();
     private:
         void DoCreateProject();
 
