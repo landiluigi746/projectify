@@ -98,7 +98,7 @@ cd frontend-cli
 # if you want to build in a different build type, change this value
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 # if you want, you can use a parallel build
-# and specify the number of jobs to run in parallel
+# and specify the number of jobs to run in parallel (use $(nproc) to use all availableprocessing units)
 cmake --build build --target projectify-cli --parallel 4
 ./bin/projectify-cli
 ```
