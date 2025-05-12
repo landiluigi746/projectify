@@ -36,6 +36,11 @@ namespace projcli::Pages
             Components::Banner(),
             separatorEmpty(),
             window(text("Sign up") | hcenter, vbox({
+                paragraph("Username must be between 8 and 64 characters and must start with a letter") | color(Color::Yellow),
+                paragraph("Password must be between 8 and 128 characters") | color(Color::Yellow),
+
+                separatorEmpty(),
+
                 m_UsernameInput->Render() | borderRounded,
                 m_PasswordInput->Render() | borderRounded,
 

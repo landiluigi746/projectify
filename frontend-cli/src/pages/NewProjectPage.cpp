@@ -39,6 +39,11 @@ namespace projcli::Pages
             window(
                 text("New project") | hcenter | bold,
                 vbox({
+                    paragraph("Name must be between 6 and 64 characters and must start with a letter") | color(Color::Yellow),
+                    paragraph("Description must be shorter than 512 characters") | color(Color::Yellow),
+
+                    separatorEmpty(),
+
                     m_ProjectNameInput->Render() | borderRounded,
                     m_ProjectDescriptionInput->Render() | borderRounded,
 

@@ -39,6 +39,10 @@ namespace projcli::Pages
             window(
                 text(std::format("New link on project: {}", m_Project.name)) | hcenter | bold,
                 vbox({
+                    paragraph("Name must be between 6 and 64 characters and must start with a letter") | color(Color::Yellow),
+
+                    separatorEmpty(),
+
                     m_LinkNameInput->Render() | borderRounded,
                     m_LinkURLInput->Render() | borderRounded,
 
