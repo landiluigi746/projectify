@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - projectify_db:/var/lib/postgresql/data
       - ./backend/cfg:/docker-entrypoint-initdb.d
@@ -19,7 +19,7 @@ services:
       context: ./backend
     restart: unless-stopped
     ports:
-      - "${PORT}:8000"
+      - "${PORT}:${PORT}"
     environment:
       - PORT=${PORT}
       - BUILD_TYPE=${BUILD_TYPE}
